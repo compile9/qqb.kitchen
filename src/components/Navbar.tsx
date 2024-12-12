@@ -14,7 +14,6 @@ interface NavProps {
 
 const Navbar: React.FC<NavProps> = (props) => {
     const {navItems, selectedTags, setSelectedTags, toggleTagSelection} = props;
-    const [error, setError] = useState<string | null>(null);
     const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
     const handleMouseEnter = (navItemId: number): void => {

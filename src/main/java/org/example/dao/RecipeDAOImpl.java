@@ -35,6 +35,16 @@ public class RecipeDAOImpl implements RecipeDAO {
         return jdbc.queryForList(getRecipeIdByTagIdSql, Long.class, tag_id);
     }
 
+    public List<String> getTagsByRecipeId(Long recipeId) {
+        String getTagsByRecipeIdSql = "SELECT t.name FROM tags t INNER JOIN recipes_tags rt ON t.id = rt.tag_id WHERE recipe_id = ?";
+        return jdbc.queryForList(getTagsByRecipeIdSql, String.class, recipeId);
+    }
+
+    public List<String> getIngredientsByRecipeId(Long recipeId) {
+        String getIngredientsByRecipeIdSql = "SELECT i.name FROM ingredients i INNER JOIN recipes_ingredients ri ON i.id = ri.ingredient_id WHERE recipe_id = ?";
+        return jdbc.queryForList(getIngredientsByRecipeIdSql, String.class, recipeId);
+    }
+
     public List<Recipe> getAllRecipes() {
         String getAllRecipesSql = "SELECT * FROM recipes";
         return jdbc.query(getAllRecipesSql, new RecipeMapper());
@@ -88,6 +98,7 @@ public class RecipeDAOImpl implements RecipeDAO {
             throw new RuntimeException(e);
         }
     }
+
 }
 
 // https://www.digitalocean.com/community/tutorials/spring-jdbctemplate-example

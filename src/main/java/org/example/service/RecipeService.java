@@ -116,4 +116,12 @@ public class RecipeService {
     public List<Recipe> findRecipesBySelectedTags(List<Integer> tagIdsArrayNum) throws SQLException {
         return recipeDAOImpl.getRecipesBySelectedTags(tagIdsArrayNum);
     }
+
+    public List<String> findTagsByRecipeId(Long recipeId) {
+        return recipeDAOImpl.getTagsByRecipeId(recipeId);
+    }
+
+    public List<String> findIngredientsByRecipeId(Long recipeId) {
+        return recipeDAOImpl.getIngredientsByRecipeId(recipeId);
+    }
 }

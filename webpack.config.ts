@@ -15,7 +15,7 @@ const definePlugin = new webpack.DefinePlugin({
 });
 
 const config: webpack.Configuration = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -43,6 +43,7 @@ const config: webpack.Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
+    alias: {events: 'events'}
   },
   plugins: [definePlugin]
 };

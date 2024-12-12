@@ -52,6 +52,16 @@ public class RecipeController {
         return recipeService.findRecipesBySelectedTags(tagIdsArrayNum);
     }
 
+    @GetMapping("/recipes/{recipeId}/tags")
+    public List<String> getTagsByRecipeId(@PathVariable Long recipeId) {
+        return recipeService.findTagsByRecipeId(recipeId);
+    }
+
+    @GetMapping("/recipes/{recipeId}/ingredients")
+    public List<String> getIngredientsByRecipeId(@PathVariable Long recipeId) {
+        return recipeService.findIngredientsByRecipeId(recipeId);
+    }
+
     @PostMapping
     public int postRecipe(@RequestBody Recipe recipe) {
         return recipeService.addRecipe(recipe);

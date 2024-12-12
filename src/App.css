@@ -130,3 +130,34 @@
     text-align: left;
     display: block;
 }
+
+.recipe-instruction-page {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.top-display-container {
+    display: flex;
+    align-items: stretch;
+    width: 80%;
+    margin-top: 20px;
+}
+
+.left-side, .right-side {
+    flex: 0 0 20%;
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+.top-display-container img {
+    flex: 0 0 20%;
+    object-fit: cover;
+    height: 20%;
+}
+
+.instruction-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #006E33
+}

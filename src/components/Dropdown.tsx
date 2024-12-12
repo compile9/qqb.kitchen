@@ -16,7 +16,6 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
     const { navItem, activeDropdown, selectedTags, setSelectedTags, toggleTagSelection } = props;
     const navigate = useNavigate();
     const [effectTrigger, setEffectTrigger] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
 
     return (
         <div>

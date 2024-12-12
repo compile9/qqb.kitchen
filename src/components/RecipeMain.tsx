@@ -5,9 +5,10 @@ import axios from 'axios';
 
 import RecipeList from './RecipeList';
 import RecipeOfToday from './RecipeOfToday';
-import { Recipe, NavItem } from './types';
+import RecipeInstructionPage from './RecipeInstructionPage';
 import Navbar from './Navbar';
 import DynamicPage from './DynamicPage';
+import { Recipe, NavItem } from './types';
 
 const RecipeMain: React.FC = () => {
     const navigate = useNavigate();
@@ -28,6 +29,7 @@ const RecipeMain: React.FC = () => {
     // Navbar props:
     const [navItems, setNavItems] = useState<NavItem[]>([]);
     const [selectedTags, setSelectedTags] = useState<number[]>([]);
+    const [recipesByTags, setRecipesByTags] = useState<Recipe[]>([]);
     const [pathOfMultiSelection, setPathOfMultiSelection] = useState<string>("");
     const [effectTrigger, setEffectTrigger] = useState<boolean>(false);
 
@@ -55,7 +57,6 @@ const RecipeMain: React.FC = () => {
     }
 
     const toggleTagSelection = (id: number): void => {
-        console.log('Previous selections: ', selectedTags);
         setSelectedTags(prevSelected =>
             prevSelected.includes(id)
                 ? prevSelected.filter(item => item !== id)
@@ -81,11 +82,10 @@ const RecipeMain: React.FC = () => {
     const updateRecipes = async () => {
         try {
             const { allRecipes, randomRecipes } = await fetchRecipes();
-            setRecipeState(prevState => ({
-                ...prevState,
+            setRecipeState({
                 allRecipes,
                 randomRecipes
-            }));
+            });
         } catch (err) {
             setError((err as Error).message);
         } finally {
@@ -101,7 +101,6 @@ const RecipeMain: React.FC = () => {
         const selectedTagsParam = params.get('selected');
         if (selectedTagsParam) {
             const restoredTagsArray = selectedTagsParam.split("|").map(Number);
-            console.log("restored tags array from last time: ", restoredTagsArray);
             setSelectedTags(restoredTagsArray);
         }
     }, []);
@@ -109,7 +108,6 @@ const RecipeMain: React.FC = () => {
     useEffect(() => {
         if (effectTrigger) {
             if (effectTrigger || selectedTags) {
-                console.log('Updated selections: ', selectedTags);
                 // update the url after selecting/deselecting tags
                 const newPath = selectedTags.length > 0 ? `tags?selected=${selectedTags.join('%7C')}` : "";
                 setEffectTrigger(false);
@@ -122,10 +120,11 @@ const RecipeMain: React.FC = () => {
 
     const fetchRecipesByTags = async(path: string) => {
         try {
-            console.log("Updated path: ", path);
             if (path.length > 0) {
                 const response = await axios.get<Recipe[]>(`/api/${path}`);
-                console.log("Recipes from updated selections:\n", response.data);
+                setRecipesByTags(
+                    response.data
+                );
             } else {
                 setPathOfMultiSelection("");
             }
@@ -150,7 +149,8 @@ const RecipeMain: React.FC = () => {
                         <RecipeList title="Newest Recipes" recipes={newestRecipes} />
                     </>
                 } />
-                <Route path="/:pathOfMultiSelection" element={<DynamicPage selectedTags={selectedTags} />} />
+                <Route path="/:pathOfMultiSelection" element={<DynamicPage selectedTags={selectedTags} recipesByTags={recipesByTags} />} />
+                <Route path="/recipe/:recipe_id" element={<RecipeInstructionPage />} />
             </Routes>
         </div>
     );
