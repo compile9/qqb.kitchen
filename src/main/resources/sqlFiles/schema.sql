@@ -2,11 +2,17 @@ CREATE TABLE IF NOT EXISTS recipes (
   id SERIAL PRIMARY KEY,
   title VARCHAR(150) NOT NULL,
   description VARCHAR(300),
-  instructions JSONB DEFAULT '{}',
   rating NUMERIC(3,2) CHECK (rating >= 0.0 AND rating <= 5.0),
   image TEXT,
   duration INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS recipe_instructions (
+  id SERIAL PRIMARY KEY,
+  recipe_id INT NOT NULL REFERENCES recipes(id),
+  step_number INT NOT NULL,
+  instruction TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS categories (
@@ -50,6 +56,13 @@ CREATE TABLE IF NOT EXISTS users (
   password VARCHAR(100) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   profile_picture TEXT
+);
+
+CREATE TABLE IF NOT EXISTS user_progress (
+  user_id INT REFERENCES users(id),
+  step_id INT REFERENCES recipe_steps,
+  status BOOLEAN DEFAULT FALSE,
+  PRIMARY KEY (user_id, step_id)
 );
 
 CREATE TABLE IF NOT EXISTS reviews (
