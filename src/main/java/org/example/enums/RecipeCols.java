@@ -7,11 +7,10 @@ public enum RecipeCols implements BaseColumnEnum {
     ID("id", 0, Types.INTEGER), // ID represents the "id" column with an index of 0
     TITLE("title", 1, Types.VARCHAR),
     DESCRIPTION("description", 2, Types.VARCHAR),
-    INSTRUCTIONS("instructions", 3, Types.OTHER),
-    RATING("rating", 4, Types.NUMERIC),
-    IMAGE("image", 5, Types.LONGNVARCHAR),
-    DURATION("duration", 6, Types.INTEGER),
-    CREATED_AT("created_at", 7, Types.TIMESTAMP);
+    RATING("rating", 3, Types.NUMERIC),
+    IMAGE("image", 4, Types.LONGNVARCHAR),
+    DURATION("duration", 5, Types.INTEGER),
+    CREATED_AT("created_at", 6, Types.TIMESTAMP);
 
     private final ColumnInfo columnInfo;
 

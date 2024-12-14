@@ -27,6 +27,8 @@ public class DataLoader {
         pKeys.put("types", "id");
         pKeys.put("recipes_ingredients", "recipe_id, ingredient_id");
         pKeys.put("recipes_tags", "recipe_id, tag_id");
+        pKeys.put("recipes_instructions", "id");
+        pKeys.put("user_progress", "user_id, step_id");
     }
 
     // check if a table already being created
@@ -149,5 +151,6 @@ public class DataLoader {
         loadCsvToTable("src/main/resources/data/ingredients.csv", "ingredients", IngredientCols.values());
         loadCsvToTable("src/main/resources/data/recipes_ingredients.csv", "recipes_ingredients", RecipeIngredientCols.values());
         loadCsvToTable("src/main/resources/data/recipes_tags.csv", "recipes_tags", RecipeTagCols.values());
+        loadCsvToTable("src/main/resources/data/recipes_instructions.csv", "recipes_instructions", RecipeInstructionCols.values());
     }
 }

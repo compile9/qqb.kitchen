@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS recipes (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS recipe_instructions (
+CREATE TABLE IF NOT EXISTS recipes_instructions (
   id SERIAL PRIMARY KEY,
   recipe_id INT NOT NULL REFERENCES recipes(id),
   step_number INT NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS user_progress (
   user_id INT REFERENCES users(id),
-  step_id INT REFERENCES recipe_steps,
+  step_id INT REFERENCES recipes_instructions(id),
   status BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (user_id, step_id)
 );
