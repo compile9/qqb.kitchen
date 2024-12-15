@@ -2,7 +2,6 @@ export interface Recipe {
   id: number;
   title: string;
   description: string;
-  instructions: string;
   rating: number;
   image: string;
   duration: number;

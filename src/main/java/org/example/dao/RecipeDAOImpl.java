@@ -57,12 +57,12 @@ public class RecipeDAOImpl implements RecipeDAO {
 
     public int updateRecipe(Long id, Recipe recipe) {
         String updateRecipeSql = "UPDATE recipes SET title = ?, description = ?, instructions = ?::jsonb, rating = ?, image = ?, duration = ? WHERE id = ?";
-        return jdbc.update(updateRecipeSql, recipe.getTitle(), recipe.getDescription(), recipe.getInstructions(), recipe.getRating(), recipe.getImage(), recipe.getDuration(), id);
+        return jdbc.update(updateRecipeSql, recipe.getTitle(), recipe.getDescription(), recipe.getRating(), recipe.getImage(), recipe.getDuration(), id);
     }
 
     public int createRecipe(Recipe recipe) {
         String insertRecipeSql = "INSERT INTO recipes(title, description, instructions, rating, image, duration) VALUES (?,?,?::jsonb,?,?,?)";
-        return jdbc.update(insertRecipeSql, recipe.getTitle(), recipe.getDescription(), recipe.getInstructions(), recipe.getRating(), recipe.getImage(), recipe.getDuration());
+        return jdbc.update(insertRecipeSql, recipe.getTitle(), recipe.getDescription(), recipe.getRating(), recipe.getImage(), recipe.getDuration());
     }
 
     private void executeSqlFile() {

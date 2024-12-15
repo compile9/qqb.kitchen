@@ -4,7 +4,6 @@ public class Recipe {
     private Long id;
     private String title;
     private String description;
-    private String instructions;
     private Double rating;
     private String image;
     private Integer duration;
@@ -12,11 +11,10 @@ public class Recipe {
 
     public Recipe() {}
 
-    public Recipe(Long id, String title, String description, String instructions, Double rating, String image, Integer duration, String created_at) {
+    public Recipe(Long id, String title, String description, Double rating, String image, Integer duration, String created_at) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.instructions = instructions;
         this.rating = rating;
         this.image = image;
         this.duration = duration;
@@ -45,14 +43,6 @@ public class Recipe {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
     }
 
     public Double getRating() {

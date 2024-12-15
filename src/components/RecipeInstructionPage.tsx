@@ -55,13 +55,7 @@ const RecipeInstructionPage: React.FC = () => {
             </div>
             <div className="instruction-container">
                 <p>Here is the instruction of the recipe:</p>
-                <ol>
-                    {recipe?.instructions.map((instruction) => (
-                        <li key={instruction.step}>
-                            <strong>Step {instruction.step}:</strong> {instruction.description}
-                        </li>
-                    ))}
-                </ol>
+
             </div>
             <div className="reviews-ratings">
                 <RatingsAndReviews recipeId={Number(recipe_id)}/>
@@ -71,3 +65,11 @@ const RecipeInstructionPage: React.FC = () => {
 }
 
 export default RecipeInstructionPage;
+
+//                 <ol>
+//                     {recipe?.instructions.map((instruction) => (
+//                         <li key={instruction.step}>
+//                             <strong>Step {instruction.step}:</strong> {instruction.description}
+//                         </li>
+//                     ))}
+//                 </ol>
