@@ -1,25 +1,20 @@
 import path from 'path';
-import webpack from 'webpack';
+import { Configuration, DefinePlugin } from 'webpack';
 import 'webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import dotenv from 'dotenv';
 
-// Load environment variables from .env file
 const env = dotenv.config().parsed;
 const host = process.env.HOST;
 const port = process.env.PORT;
 
-// Create a new Webpack define plugin
-const definePlugin = new webpack.DefinePlugin({
-  'process.env': JSON.stringify(env)
-});
-
-const config: webpack.Configuration = {
+const config: Configuration = {
   mode: 'development',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    clean: true
   },
   module: {
     rules: [
@@ -45,7 +40,11 @@ const config: webpack.Configuration = {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {events: 'events'}
   },
-  plugins: [definePlugin]
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    })
+  ]
 };
 
 export default config;

@@ -6,7 +6,9 @@
     "frontend": "webpack serve --config webpack.config.ts --mode development",
     "backend": "mvn spring-boot:run",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "build": "webpack"
+    "build": "webpack",
+    "clean-install": "rm -rf node_modules package-lock.json && npm install",
+    "clean": "npm prune"
   },
   "keywords": [],
   "author": "Dongning Song",
