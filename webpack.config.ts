@@ -22,6 +22,7 @@ const config: Configuration = {
       { test: /\.css$/, use:['style-loader', 'css-loader'], exclude: /node_modules/}
     ],
   },
+  devtool: 'inline-source-map',
   devServer: {
     static: {
         directory: path.join(__dirname, 'public'),
@@ -43,6 +44,7 @@ const config: Configuration = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
+      filename: 'index.html'
     })
   ]
 };
