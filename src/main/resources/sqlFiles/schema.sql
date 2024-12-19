@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS recipes (
 CREATE TABLE IF NOT EXISTS recipes_instructions (
   id SERIAL PRIMARY KEY,
   recipe_id INT NOT NULL REFERENCES recipes(id),
-  step_number INT NOT NULL,
   instruction TEXT NOT NULL
 );
 
