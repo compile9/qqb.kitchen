@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.model.Recipe;
+import org.example.model.RecipeDetails;
 import org.example.service.RecipeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{id}")
-    public Recipe fetchRecipeById(@PathVariable Long id) {
+    public RecipeDetails fetchRecipeById(@PathVariable Long id) throws SQLException {
         return recipeService.findRecipeById(id);
     }
 
@@ -37,7 +38,7 @@ public class RecipeController {
     @Value("${TAG_IDS}")
     private String tagIds;
     @GetMapping("/today-recipes")
-    public List<Recipe> fetchTodayRecipes() {
+    public List<Recipe> fetchTodayRecipes() throws SQLException {
         List<String> tagIdList = Arrays.asList(tagIds.split(","));
         return recipeService.findTodayRecipes(tagIdList);
     }
@@ -50,16 +51,6 @@ public class RecipeController {
             tagIdsArrayNum.add(Integer.parseInt(tagIdStr));
         }
         return recipeService.findRecipesBySelectedTags(tagIdsArrayNum);
-    }
-
-    @GetMapping("/recipes/{recipeId}/tags")
-    public List<String> getTagsByRecipeId(@PathVariable Long recipeId) {
-        return recipeService.findTagsByRecipeId(recipeId);
-    }
-
-    @GetMapping("/recipes/{recipeId}/ingredients")
-    public List<String> getIngredientsByRecipeId(@PathVariable Long recipeId) {
-        return recipeService.findIngredientsByRecipeId(recipeId);
     }
 
     @PostMapping

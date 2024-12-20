@@ -1,4 +1,4 @@
-package org.example;
+package org.example.db;
 import com.opencsv.exceptions.CsvValidationException;
 import org.example.enums.*;
 

@@ -1,48 +1,29 @@
 package org.example.dao;
 
-import org.example.TestConnect;
+import org.example.db.TestConnect;
 import org.example.model.Recipe;
 import org.example.model.RecipeMapper;
+import org.example.model.RecipeDetails;
+import org.example.model.RecipeDetailsMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class RecipeDAOImpl implements RecipeDAO {
-    private static final String sqlPath = "src/main/resources/sqlFiles/get_intersected_recipe_ids.sql";
     JdbcTemplate jdbc;
 
     public RecipeDAOImpl(DataSource dataSource) {
         jdbc = new JdbcTemplate(dataSource);
     }
 
-    public Recipe getRecipeById(Long id) {
-        String getRecipeSql = "SELECT * FROM recipes WHERE id = ?";
-        return jdbc.queryForObject(getRecipeSql, new RecipeMapper(), id);
-    }
-
     public List<Long> getRecipeIdByTagId(Long tag_id) {
         String getRecipeIdByTagIdSql = "SELECT recipe_id FROM recipes_tags WHERE tag_id = ?";
         return jdbc.queryForList(getRecipeIdByTagIdSql, Long.class, tag_id);
-    }
-
-    public List<String> getTagsByRecipeId(Long recipeId) {
-        String getTagsByRecipeIdSql = "SELECT t.name FROM tags t INNER JOIN recipes_tags rt ON t.id = rt.tag_id WHERE recipe_id = ?";
-        return jdbc.queryForList(getTagsByRecipeIdSql, String.class, recipeId);
-    }
-
-    public List<String> getIngredientsByRecipeId(Long recipeId) {
-        String getIngredientsByRecipeIdSql = "SELECT i.name FROM ingredients i INNER JOIN recipes_ingredients ri ON i.id = ri.ingredient_id WHERE recipe_id = ?";
-        return jdbc.queryForList(getIngredientsByRecipeIdSql, String.class, recipeId);
     }
 
     public List<Recipe> getAllRecipes() {
@@ -65,22 +46,11 @@ public class RecipeDAOImpl implements RecipeDAO {
         return jdbc.update(insertRecipeSql, recipe.getTitle(), recipe.getDescription(), recipe.getRating(), recipe.getImage(), recipe.getDuration());
     }
 
-    private void executeSqlFile() {
-        try (Connection conn = TestConnect.dataSource().getConnection();
-             Statement stmt = conn.createStatement()) {
-            String sqlString = new String(Files.readAllBytes(Paths.get(sqlPath)), StandardCharsets.UTF_8);
-            stmt.execute(sqlString);
-        } catch (IOException | SQLException e) {
-            throw new RuntimeException("Failed to create SQL function", e);
-        }
-    }
-
     public List<Recipe> getRecipesBySelectedTags(List<Integer> tagIds) throws SQLException {
         List<Recipe> recipeList = new ArrayList<>();
         String sql = "SELECT get_intersected_recipe_ids(?) AS result";
         try (Connection conn = TestConnect.dataSource().getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            executeSqlFile();
             Array sqlArray = conn.createArrayOf("INTEGER", tagIds.toArray());
             pstmt.setArray(1, sqlArray);
             ResultSet rs = pstmt.executeQuery();
@@ -99,6 +69,9 @@ public class RecipeDAOImpl implements RecipeDAO {
         }
     }
 
-}
+    public RecipeDetails getRecipeById(Long id) throws SQLException {
+        String sql = "SELECT * FROM get_recipe_with_details(?)";
+        return jdbc.queryForObject(sql, new RecipeDetailsMapper(), id);
+    }
 
-// https://www.digitalocean.com/community/tutorials/spring-jdbctemplate-example
+}

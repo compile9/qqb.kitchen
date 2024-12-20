@@ -8,6 +8,12 @@ export interface Recipe {
   created_at: string
 }
 
+export interface RecipeDetails extends Recipe {
+  tags: string[];
+  instructions: string[];
+  ingredients: string[]
+}
+
 export interface DropdownItem {
     id: number;
     name: string;

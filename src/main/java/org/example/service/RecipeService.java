@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dao.RecipeDAOImpl;
 import org.example.model.Recipe;
+import org.example.model.RecipeDetails;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class RecipeService {
         this.recipeDAOImpl = recipeDAOImpl;
     }
 
-    public Recipe findRecipeById(Long id) {
+    public RecipeDetails findRecipeById(Long id) throws SQLException {
         return recipeDAOImpl.getRecipeById(id);
     }
 
@@ -40,13 +41,13 @@ public class RecipeService {
 
     public int addRecipe(Recipe recipe) { return recipeDAOImpl.createRecipe(recipe); }
 
-    private List<Recipe> updateRecipesOfToday(LocalDateTime now, List<String> tagIdList) {
+    private List<Recipe> updateRecipesOfToday(LocalDateTime now, List<String> tagIdList) throws SQLException {
         todayRecipes = selectRandomRecipesByTags(tagIdList);
         lastUpdate = now;
         return todayRecipes;
     }
 
-    private List<Recipe> selectRandomRecipesByTags(List<String> tagIdList) {
+    private List<Recipe> selectRandomRecipesByTags(List<String> tagIdList) throws SQLException {
         List<Recipe> selectedRecipes = new ArrayList<>();
 
         for (String tagId : tagIdList) {
@@ -57,7 +58,7 @@ public class RecipeService {
                 int randomIndex = new Random().nextInt(recipeIds.size());
                 Long randomRecipeId = recipeIds.get(randomIndex);
                 // get the full recipe and add to list
-                Recipe recipe = findRecipeById(randomRecipeId);
+                RecipeDetails recipe = findRecipeById(randomRecipeId);
                 selectedRecipes.add(recipe);
             }
         }
@@ -78,7 +79,7 @@ public class RecipeService {
      *
      */
 
-    public List<Recipe> findTodayRecipes(List<String> tagIdList) {
+    public List<Recipe> findTodayRecipes(List<String> tagIdList) throws SQLException {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sixAmToday = now.withHour(6).withMinute(0).withSecond(0).withNano(0);
 
@@ -117,11 +118,4 @@ public class RecipeService {
         return recipeDAOImpl.getRecipesBySelectedTags(tagIdsArrayNum);
     }
 
-    public List<String> findTagsByRecipeId(Long recipeId) {
-        return recipeDAOImpl.getTagsByRecipeId(recipeId);
-    }
-
-    public List<String> findIngredientsByRecipeId(Long recipeId) {
-        return recipeDAOImpl.getIngredientsByRecipeId(recipeId);
-    }
 }
