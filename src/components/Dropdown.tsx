@@ -15,7 +15,15 @@ interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = (props) => {
     const { navItem, activeDropdown, selectedTags, setSelectedTags, toggleTagSelection } = props;
     const navigate = useNavigate();
-    const [effectTrigger, setEffectTrigger] = useState<boolean>(false);
+    const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+
+    const handleMouseEnter = (dropdownId: number): void => {
+        setHoveredItem(dropdownId);
+    };
+
+    const handleMouseLeave = (): void => {
+        setHoveredItem(null);
+    }
 
     return (
         <div>
@@ -23,11 +31,15 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
             {activeDropdown === navItem.id && navItem.dropdownItems && navItem.dropdownItems.length > 0 && (
                 <ul className="dropdown">
                     {navItem.dropdownItems.map(dropdownItem => {
+                        const isHovered = hoveredItem === dropdownItem.id;
+                        const hoverStyle = isHovered ? {backgroundColor: '#B67233'} : {};
                         const isSelected = selectedTags.includes(dropdownItem.id);
+                        const selectedStyle = isSelected ? {backgroundColor: '#ffa6c9', color: 'black'} : {};
                         return (
-                            <li key={dropdownItem.id} onClick={() => toggleTagSelection(dropdownItem.id)}>
-                                <input type="checkbox" checked={isSelected} onChange={() => {}}/>
-                                <span>{dropdownItem.name}</span>
+                            <li key={dropdownItem.id} onMouseEnter={() => handleMouseEnter(dropdownItem.id)} onMouseLeave={() => handleMouseLeave()} style={hoverStyle}>
+                                <a style={selectedStyle} onClick={() => toggleTagSelection(dropdownItem.id)}>
+                                    <span>{dropdownItem.name}</span>
+                                </a>
                             </li>
                         );
                     })}
