@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import dotenv from 'dotenv';
 import axios from 'axios';
 
@@ -12,6 +12,7 @@ import { Recipe, NavItem } from './types';
 
 const RecipeMain: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     interface RecipeState {
         allRecipes: Recipe[];
@@ -118,6 +119,12 @@ const RecipeMain: React.FC = () => {
         }
     }, [effectTrigger, selectedTags]);
 
+    useEffect(() => {
+        if (location.pathname === '/') {
+            setSelectedTags([]);
+        }
+    }, [location.pathname]);
+
     const fetchRecipesByTags = async(path: string) => {
         try {
             if (path.length > 0) {
@@ -125,8 +132,6 @@ const RecipeMain: React.FC = () => {
                 setRecipesByTags(
                     response.data
                 );
-            } else {
-                setPathOfMultiSelection("");
             }
         } catch (err) {
             setError('Failed to fetch recipes by selected tags');
