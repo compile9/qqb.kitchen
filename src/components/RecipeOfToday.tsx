@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Recipe} from './types';
+import RecipeCard from './RecipeCard';
 
 interface RecipeOfTodayProps {
     recipesOfToday: Recipe[];
@@ -32,20 +33,24 @@ const RecipeOfToday: React.FC<RecipeOfTodayProps> = (props) => {
                 label: labelRange[index]?.label ?? "Snack"
             }
     });
-
-    // get the image based on time
-    const getImageByTime = (): ImageObject => {
+    // get the recipe based on time
+    const getRecipeByTime = (): Recipe => {
         const currentHour = new Date().getHours();
         const currentLabelObj = labelRange.find(time => currentHour >= time.startHour && currentHour < time.endHour);
-        return currentLabelObj ? images[labelRange.indexOf(currentLabelObj)] : images[images.length - 1];
+        return currentLabelObj ? recipesOfToday[labelRange.indexOf(currentLabelObj)] : recipesOfToday[images.length - 1];
     }
 
-    const [mainImage, setMainImage] = useState(getImageByTime);
-    const handleThumbnailClick = (image: ImageObject) => setMainImage(image);
-    // update main image every minute to check for time changes
-    useEffect( () => {
+    const [mainRecipe, setMainRecipe] = useState(getRecipeByTime);
+    const handleThumbnailClick = (image: ImageObject) => {
+        const mainRecipe = recipesOfToday.find(recipe => recipe.id === image.id);
+        if (mainRecipe) {
+            setMainRecipe(mainRecipe);
+        }
+    };
+    // update main recipe every minute to check for time changes
+    useEffect(() => {
         const interval = setInterval( () => {
-            setMainImage(getImageByTime());
+            setMainRecipe(getRecipeByTime());
         }, 60000);
         return () => clearInterval(interval);
     }, []);
@@ -55,11 +60,7 @@ const RecipeOfToday: React.FC<RecipeOfTodayProps> = (props) => {
             <h2>Today's Recipes</h2>
             <div className="display-container">
                 <div className="main-image-container">
-                    <img
-                        src={mainImage.url}
-                        alt={`Recipe ${mainImage.id}`}
-                        className="main-display-image"
-                    />
+                    <RecipeCard recipe={mainRecipe} />
                 </div>
                 <div className="thumbnail-image-container">
                     {images.map((image: ImageObject) => (
