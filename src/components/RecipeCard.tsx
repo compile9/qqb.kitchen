@@ -7,9 +7,9 @@ const RecipeCard: React.FC<{recipe: Recipe}> = ({recipe}) => (
         <Link to={`/recipe/${encodeURIComponent(recipe.id)}`}>
           <img
             src={recipe.image}
-            alt={recipe.title}
             className="recipe-image"
           />
+          <div className="recipe-title">{recipe.title}</div>
         </Link>
     </div>
 )

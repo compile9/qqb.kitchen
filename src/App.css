@@ -2,12 +2,18 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .recipe-row {
     display: flex;
     justify-content: space-between;
     gap: 15px;
+}
+
+.recipe-row .recipe-card {
+  position: relative;
 }
 
 .recipe-card {
@@ -22,21 +28,37 @@
     aspect-ratio: 16 / 9;
 }
 
+.recipe-title {
+    top: 4px;
+    left: 4px;
+    position: absolute;
+    background-color: #006E33;
+    color:  #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
 .recipe-of-today {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.recipe-of-today .display-container {
+.display-container {
     display: flex;
     gap: 20px;
     height: 500px;
 }
 
-.recipe-of-today .main-image-container {
+.main-image-container {
     flex: 2;
     position: relative;
+}
+
+.main-image-container .recipe-card {
+  position: static;
 }
 
 .recipe-of-today .recipe-image {
@@ -46,7 +68,7 @@
     object-fit: cover;
 }
 
-.recipe-of-today .thumbnail-image-container {
+.thumbnail-image-container {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -54,7 +76,7 @@
     height: 100%;
 }
 
-.recipe-of-today .thumbnail-wrapper {
+.thumbnail-wrapper {
     position: relative;
     cursor: pointer;
     width: 100%;
@@ -62,22 +84,22 @@
     overflow: hidden;
 }
 
-.recipe-of-today .random-recipe-image {
+.random-recipe-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.recipe-of-today .random-recipe-image:hover {
+.random-recipe-image:hover {
     opacity: 0.8;
 }
 
-.recipe-of-today .meal-label {
+.meal-label {
     position: absolute;
     bottom: 4px;
     right: 4px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
+    background-color: #006E33;
+    color: #FEFBEA;
     padding: 4px 8px;
     border-radius: 4px;
     font-weight: bold;
