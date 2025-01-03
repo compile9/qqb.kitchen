@@ -48,7 +48,10 @@ const RecipeInstructionPage: React.FC = () => {
             <div className="instruction-container">
                 <h3>Instructions</h3>
                 {recipe?.instructions.map((instruction, stepNum) => (
-                    <p key={stepNum} className="recipe-ingredients">{instruction}</p>
+                    <div>
+                        <p className="recipe-instruction-step-number">Step {stepNum + 1}</p>
+                        <p className="recipe-instruction">{instruction}</p>
+                    </div>
                 ))}
             </div>
             <div className="reviews-ratings">

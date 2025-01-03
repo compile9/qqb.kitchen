@@ -163,32 +163,76 @@
 }
 
 .recipe-instruction-page {
-    width: 100%;
-    padding: 20px;
+    padding: 10px;
+    margin: 0 auto;
+    max-width: 1200px;
     box-sizing: border-box;
+}
+
+.recipe-instruction-page h2 {
+    margin: 30px 0 0 0;
+    font-size: 1.5rem;
+    text-align: center
 }
 
 .top-display-container {
     display: flex;
-    align-items: stretch;
-    width: 80%;
-    margin-top: 20px;
+    margin: 0px 0 0 0;
+    padding: 10px;
+    justify-content: center;
 }
 
-.left-side, .right-side {
-    flex: 0 0 20%;
+.left-side {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 15%;
     background-color: #f0f0f0;
-    padding: 10px;
+    margin: 20px auto;
+    padding: 20px;
+    align-items: flex-start;
+}
+
+.right-side {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 15%;
+    background-color: #f0f0f0;
+    margin: 20px auto;
+    padding: 20px;
+    align-items: flex-end;
 }
 
 .top-display-container img {
     flex: 0 0 20%;
-    object-fit: cover;
-    height: 20%;
+    margin: 20px;
+    height: 600px;
+    width: auto;
 }
 
 .instruction-container {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
     padding: 10px;
-    background-color: #006E33
+    background-color: #006E33;
+    width: calc(100% - 80px);
+    align-items: flex-start;
 }
+
+.instruction-container h3 {
+    margin: 10px 0 0 0;
+    font-size: 1.5rem;
+}
+
+.recipe-instruction-step-number {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.recipe-instruction {
+    font-size: 1rem;
+    margin: 0;
+}
+
+
+
