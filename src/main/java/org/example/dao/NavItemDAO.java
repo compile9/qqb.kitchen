@@ -4,6 +4,6 @@ import org.example.model.NavItem;
 
 import java.util.List;
 
-public interface NavItemDao {
+public interface NavItemDAO {
     List<NavItem> getAllNavItems();
 }

@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
-public class NavItemDAOImpl implements NavItemDao {
+public class NavItemDAOImpl implements NavItemDAO {
     JdbcTemplate jdbc;
 
     public NavItemDAOImpl(DataSource dataSource) {
