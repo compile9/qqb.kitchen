@@ -4,6 +4,6 @@ import org.example.model.User;
 import org.springframework.stereotype.Repository;
 
 public interface UserDAO {
-    void save(User user);
+    void saveUser(User user);
     User getByEmail(String email);
 }

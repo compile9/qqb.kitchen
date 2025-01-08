@@ -16,7 +16,7 @@ public class UserDAOImpl implements UserDAO {
         jdbc = new JdbcTemplate(dataSource);
     }
 
-    public void save(User user) {
+    public void saveUser(User user) {
         String sql = "INSERT INTO users (username, email, password, created_at, profile_picture) VALUES (?, ?, ?, ?, ?)";
         jdbc.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), user.getCreatedAt(), user.getProfilePicture());
     }
