@@ -10,6 +10,8 @@ public class User {
     private LocalDateTime createdAt;
     private String profilePicture;
 
+    public User() {}
+
     public User(Long id, String username, String email, String password, LocalDateTime createdAt, String profilePicture) {
         this.id = id;
         this.username = username;
@@ -32,7 +34,7 @@ public class User {
         this.id = id;
     }
 
-    public Object getUsername() {
+    public String getUsername() {
         return username;
     }
 

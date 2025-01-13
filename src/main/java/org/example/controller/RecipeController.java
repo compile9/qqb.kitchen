@@ -13,31 +13,31 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/api/recipes")
 public class RecipeController {
     private final RecipeService recipeService;
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/recipes/{id}")
+    @GetMapping("/{id}")
     public RecipeDetails fetchRecipeById(@PathVariable Long id) throws SQLException {
         return recipeService.findRecipeById(id);
     }
 
-    @GetMapping("/recipes/ids")
+    @GetMapping("/ids")
     public List<Long> fetchRecipeIdByTagId(@RequestParam("tag_id") Long tagId) {
         return recipeService.findRecipeIdByTagId(tagId);
     }
 
-    @GetMapping("/recipes")
+    @GetMapping
     public List<Recipe> fetchAllRecipes() {
         return recipeService.findAllRecipes();
     }
 
     @Value("${TAG_IDS}")
     private String tagIds;
-    @GetMapping("/today-recipes")
+    @GetMapping("/today")
     public List<Recipe> fetchTodayRecipes() throws SQLException {
         List<String> tagIdList = Arrays.asList(tagIds.split(","));
         return recipeService.findTodayRecipes(tagIdList);
@@ -58,12 +58,12 @@ public class RecipeController {
         return recipeService.addRecipe(recipe);
     }
 
-    @PutMapping("/recipes/{id}")
+    @PutMapping("/{id}")
     public int alterRecipe(@PathVariable("id") Long id, @RequestBody Recipe recipe) {
         return recipeService.modifyRecipe(id, recipe);
     }
 
-    @DeleteMapping("/recipes/{id}")
+    @DeleteMapping("/{id}")
     public int dropRecipe(@PathVariable Long id) {
         return recipeService.removeRecipe(id);
     }

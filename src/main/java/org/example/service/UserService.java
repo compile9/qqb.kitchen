@@ -15,9 +15,8 @@ public class UserService {
         // check if the email already exists
         User existingUser = userDaoImpl.getByEmail(email);
         if (existingUser != null) {
-            throw new IllegalArgumentException("This email already exists.");
+            throw new IllegalArgumentException("This email already exists!");
         }
-
         // hash the password (later)
 
         // save the new user to db
@@ -28,7 +27,7 @@ public class UserService {
     public User login(String email, String password) {
         User user = userDaoImpl.getByEmail(email);
         if (user == null) {
-            throw new IllegalArgumentException("Invalid email or password");
+            throw new IllegalArgumentException("This email doesn't exist.");
         }
 
         // verify the password (later)

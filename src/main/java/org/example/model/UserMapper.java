@@ -12,7 +12,7 @@ public class UserMapper implements RowMapper<User> {
             rs.getString("username"),
             rs.getString("email"),
             rs.getString("password"),
-            rs.getTimestamp("created_at"),
+            rs.getTimestamp("created_at").toLocalDateTime(),
             rs.getString("profile_picture")
         );
     }

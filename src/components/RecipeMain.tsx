@@ -70,7 +70,7 @@ const RecipeMain: React.FC = () => {
     const fetchRecipes = async () => {
         try {
             const responseAllRecipes = await axios.get<Recipe[]>(`/api/recipes`);
-            const responseRecipesOfToDay = await axios.get<Recipe[]>(`/api/today-recipes`);
+            const responseRecipesOfToDay = await axios.get<Recipe[]>(`/api/recipes/today`);
             return {
                 allRecipes: responseAllRecipes.data,
                 randomRecipes: responseRecipesOfToDay.data
@@ -128,7 +128,7 @@ const RecipeMain: React.FC = () => {
     const fetchRecipesByTags = async(path: string) => {
         try {
             if (path.length > 0) {
-                const response = await axios.get<Recipe[]>(`/api/${path}`);
+                const response = await axios.get<Recipe[]>(`/api/recipes/${path}`);
                 setRecipesByTags(
                     response.data
                 );
