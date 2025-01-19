@@ -25,3 +25,5 @@ node_modules/
 
 ### Webpack bundled output ###
 dist/
+
+*.pem

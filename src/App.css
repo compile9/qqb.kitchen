@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    max-width: 1200px;
+    max-width: 90%;
     margin: 0 auto;
 }
 
@@ -10,6 +10,8 @@
     display: flex;
     justify-content: space-between;
     gap: 15px;
+    flex-wrap: wrap;
+    padding: 10px;
 }
 
 .recipe-row .recipe-card {
@@ -17,8 +19,23 @@
 }
 
 .recipe-card {
-    flex: 1;
-    max-width: calc(100% / 3 - 10px);
+    flex: 1 1 calc(33.33% - 15px);
+    max-width: calc(33.33% - 15px);
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .recipe-card {
+        flex: 1 1 calc(50% - 15px);
+        max-width: calc(50% - 15px);
+    }
+}
+
+@media (max-width: 768px) {
+    .recipe-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
 }
 
 .recipe-image {
@@ -41,15 +58,16 @@
 }
 
 .recipe-of-today {
-    width: 100%;
-    max-width: 1200px;
+    width: 90%;
     margin: 0 auto;
 }
 
 .display-container {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
-    height: 500px;
+    height: 60vh;
+
 }
 
 .main-image-container {
@@ -107,7 +125,8 @@
 }
 
 .navbar {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .navbar-links {
@@ -118,13 +137,15 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 2rem;
+    gap: 1rem;
     position: relative;
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 10px;
+    flex-wrap: wrap;
 }
 
 .navbar-links li {
     padding: 0;
+    position: relative;
 }
 
 .navbar-links a {
@@ -132,6 +153,7 @@
     text-decoration: none;
     padding: 0.5rem 1rem;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .navbar-links a:hover {
@@ -165,7 +187,7 @@
 .recipe-instruction-page {
     padding: 10px;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 90%;
     box-sizing: border-box;
 }
 
@@ -180,6 +202,7 @@
     margin: 0px 0 0 0;
     padding: 10px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .left-side {
@@ -205,8 +228,9 @@
 .top-display-container img {
     flex: 0 0 20%;
     margin: 20px;
-    height: 600px;
+    height: auto;
     width: auto;
+    max-height: 60vh;
 }
 
 .instruction-container {
@@ -215,7 +239,7 @@
     margin: 0 auto;
     padding: 10px;
     background-color: #006E33;
-    width: calc(100% - 80px);
+    width: calc(100% - 40px);
     align-items: flex-start;
 }
 
@@ -233,6 +257,3 @@
     font-size: 1rem;
     margin: 0;
 }
-
-
-
