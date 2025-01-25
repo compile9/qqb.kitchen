@@ -1,12 +1,13 @@
 {
-  "name": "Ning's Kitchen",
+  "name": "tempNameHolder",
   "version": "1.0.0",
   "description": "Discover and explore personalized recipes tailored to your taste!",
   "scripts": {
-    "frontend": "webpack serve --config webpack.config.ts --mode development",
     "backend": "mvn spring-boot:run",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "build": "webpack",
+    "frontend": "webpack serve --config webpack.config.ts --mode development",
+    "build-backend": "mvn clean package",
+    "build-frontend": "rm -rf dist && webpack",
+    "build": "npm run build-backend && npm run build-frontend",
     "clean-install": "rm -rf node_modules package-lock*.json && npm install",
     "clean": "npm prune"
   },
