@@ -1,12 +1,12 @@
 # Build Stage
-FROM maven:3.9.8-openjdk-21-slim AS build
+FROM maven:3.9.9-eclipse-temurin-21-jammy AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package
 
 # Runtime Stage
-FROM openjdk:21-jdk-alpine
+FROM eclipse-temurin:21
 WORKDIR /app
 ARG PORT
 ENV PORT=${PORT}
