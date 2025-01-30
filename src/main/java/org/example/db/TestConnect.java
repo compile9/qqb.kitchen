@@ -16,14 +16,18 @@ public class TestConnect {
     private final static String password = dotenv.get("DB_PASS");
     private static final BasicDataSource ds = new BasicDataSource();
 
-    @Bean
-    public static BasicDataSource dataSource() {
+    static {
+        ds.setDriverClassName("org.postgresql.Driver");
         ds.setUrl(url);
         ds.setUsername(user);
         ds.setPassword(password);
         ds.setMinIdle(5);
         ds.setMaxIdle(10);
         ds.setMaxOpenPreparedStatements(100);
+    }
+
+    @Bean
+    public static BasicDataSource dataSource() {
         return ds;
     }
 
