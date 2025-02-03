@@ -36,9 +36,16 @@ public class DataLoader {
         try (Connection conn = TestConnect.dataSource().getConnection()) {
             DatabaseMetaData dbm = conn.getMetaData();
             ResultSet rs = dbm.getTables(null, null, tableName, null);
-            return rs.next();
+            if (rs.next()) {
+                System.out.println("TABLE " + tableName + " EXISTS.");
+                return true;
+            } else {
+                System.out.println("TABLE " + tableName + " DOES NOT EXIST!");
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("An error occurred while checking the existence of TABLE " + tableName);
             return false;
         }
     }

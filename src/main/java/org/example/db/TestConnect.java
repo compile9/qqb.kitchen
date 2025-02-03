@@ -32,6 +32,7 @@ public class TestConnect {
     }
 
     public static void main(String[] args) {
+        System.out.println("Starting TestConnect...");
         try (Connection conn = ds.getConnection()) {
             if (conn != null) {
                 System.out.println("Successfully connected to the database!");

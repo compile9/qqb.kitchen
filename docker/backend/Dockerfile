@@ -14,4 +14,6 @@ COPY .env /app/.env
 COPY --from=build /app/target/myKitchen-1.0-SNAPSHOT.jar app.jar
 COPY --from=build /app/target/classes /app/classes
 COPY --from=build /app/target/dependency /app/dependency
+COPY src ./src
+COPY pom.xml .
 ENTRYPOINT ["java","-jar","app.jar"]
