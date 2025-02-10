@@ -2,10 +2,10 @@ package org.example.db;
 import com.opencsv.exceptions.CsvValidationException;
 import org.example.enums.*;
 
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,26 +50,31 @@ public class DataLoader {
         }
     }
 
-    // execute schema.sql file
-    public static void executeSqlSchema(String sqlFilePath) {
+    public static void executeSqlSchema(String resourcePath) {
         String allTableString = dotenv.get("ALL_TABLES");
         String[] tableNames = allTableString.split(",");
         boolean allExistence = true;
-        for (String tableName: tableNames) {
+        for (String tableName : tableNames) {
             if (!checkTableExistence(tableName)) {
                 allExistence = false;
             }
         }
         if (!allExistence) {
-            try (Connection conn = TestConnect.dataSource().getConnection();
-                 Statement stmt = conn.createStatement()) {
-                // read the .sql file into a string
-                String sqlString = new String(Files.readAllBytes(Paths.get(sqlFilePath)));
-                // execute all SQL statements inside .sql file
-                stmt.execute(sqlString);
-                System.out.println("Schema created successfully!");
-            } catch (IOException | SQLException e) {
-                throw new RuntimeException(e);
+            try (InputStream inputStream = DataLoader.class.getClassLoader().getResourceAsStream(resourcePath)) {
+                System.out.println(inputStream);
+                if (inputStream == null) {
+                    throw new RuntimeException("Schema file not found in classpath: " + resourcePath);
+                }
+                try (Connection conn = TestConnect.dataSource().getConnection();
+                     Statement stmt = conn.createStatement()) {
+                    String sqlString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                    stmt.execute(sqlString);
+                    System.out.println("Schema created successfully!");
+                } catch (SQLException e) {
+                    throw new RuntimeException("Failed to execute SQL schema", e);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read schema file: " + resourcePath, e);
             }
         } else {
             System.out.println("All tables already exist, skip the execution.");
@@ -77,87 +82,86 @@ public class DataLoader {
     }
 
     // dynamically build the SQL INSERT statement using column names and indices provided by TableCols interface
-    public static void loadCsvToTable(String csvFilePath, String tableName, BaseColumnEnum[] columns) {
-
+    public static void loadCsvToTable(String resourcePath, String tableName, BaseColumnEnum[] columns) {
         try (Connection conn = TestConnect.dataSource().getConnection();
-             CSVReader reader = new CSVReader(new FileReader(csvFilePath))) {
-            // build the SQL statement dynamically based on the column mapping
-            // example: INSERT INTO recipes (id, title, description, instructions, rating, image, duration, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT (id) DO NOTHING
-            StringBuilder insertBuilder = new StringBuilder("INSERT INTO ");
-            insertBuilder.append(tableName).append("(");
-            for (BaseColumnEnum column: columns) {
-                insertBuilder.append(column.getColumnName()).append(", ");
+             InputStream inputStream = DataLoader.class.getClassLoader().getResourceAsStream(resourcePath)) {
+            System.out.println("input stream: " + inputStream);
+            if (inputStream == null) {
+                throw new RuntimeException("CSV file not found in classpath: " + resourcePath);
             }
-            insertBuilder.delete(insertBuilder.length() - 2, insertBuilder.length());
-            insertBuilder.append(") VALUES (");
-            for (BaseColumnEnum column: columns) {
-                insertBuilder.append("?, ");
-            }
-            insertBuilder.delete(insertBuilder.length() - 2, insertBuilder.length());
-            insertBuilder.append(")");
-            insertBuilder.append(" ON CONFLICT (");
-            insertBuilder.append(pKeys.get(tableName));
-            insertBuilder.append(") DO NOTHING");
-            String sqlInsert = insertBuilder.toString();
-
-            // read rows from the csv file and insert into the table
-            try (PreparedStatement pstmt = conn.prepareStatement(sqlInsert)) {
-                String[] nextLine = reader.readNext();
-                while ((nextLine = reader.readNext()) != null) {
-                    for (BaseColumnEnum column: columns) {
-                        int colIndex = column.getColumnIndex();
-                        int colType = column.getColumnType();
-                        int paramIndex = colIndex + 1;
-                        if (nextLine[colIndex] != null && !nextLine[colIndex].isEmpty()) {
-                            switch (colType) {
-                                case Types.VARCHAR:
-                                case Types.LONGNVARCHAR:
-                                    pstmt.setString(paramIndex, nextLine[colIndex]);
-                                    break;
-                                case Types.INTEGER:
-                                    pstmt.setInt(paramIndex, Integer.parseInt(nextLine[colIndex]));
-                                    break;
-                                case Types.NUMERIC:
-                                    pstmt.setDouble(paramIndex, Double.parseDouble(nextLine[colIndex]));
-                                    break;
-                                case Types.TIMESTAMP:
-                                    pstmt.setTimestamp(paramIndex, Timestamp.valueOf(nextLine[colIndex]));
-                                    break;
-                                case Types.OTHER:
-                                    PGobject jsonObject = new PGobject();
-                                    jsonObject.setType("jsonb");
-                                    jsonObject.setValue(nextLine[colIndex]);
-                                    pstmt.setObject(paramIndex, jsonObject);
-                                    break;
-                                default:
-                                    pstmt.setObject(paramIndex, nextLine[colIndex]);
-                            }
-                        } else {
-                            pstmt.setNull(paramIndex, colType);
-                        }
-                    }
-                    // https://stackoverflow.com/questions/6860691/using-jdbc-preparedstatement-in-a-batch
-                    pstmt.addBatch();
+            try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                StringBuilder insertBuilder = new StringBuilder("INSERT INTO ").append(tableName).append("(");
+                for (BaseColumnEnum column: columns) {
+                    insertBuilder.append(column.getColumnName()).append(", ");
                 }
-                pstmt.executeBatch();
-            } catch (CsvValidationException e) {
-                throw new RuntimeException(e);
+                insertBuilder.setLength(insertBuilder.length() - 2);
+                insertBuilder.append(") VALUES (").append("?, ".repeat(columns.length));
+                insertBuilder.setLength(insertBuilder.length() - 2);
+                insertBuilder.append(") ON CONFLICT (").append(pKeys.get(tableName)).append(") DO NOTHING");
+                String sqlInsert = insertBuilder.toString();
+
+                try (PreparedStatement pstmt = conn.prepareStatement(sqlInsert)) {
+                    String[] nextLine = reader.readNext();
+                    while ((nextLine = reader.readNext()) != null) {
+                        for (BaseColumnEnum column: columns) {
+                            int colIndex = column.getColumnIndex();
+                            int colType = column.getColumnType();
+                            int paramIndex = colIndex + 1;
+                            if (nextLine[colIndex] != null && !nextLine[colIndex].isEmpty()) {
+                                try {
+                                    switch (colType) {
+                                        case Types.VARCHAR:
+                                        case Types.LONGNVARCHAR:
+                                            pstmt.setString(paramIndex, nextLine[colIndex]);
+                                            break;
+                                        case Types.INTEGER:
+                                            pstmt.setInt(paramIndex, Integer.parseInt(nextLine[colIndex]));
+                                            break;
+                                        case Types.NUMERIC:
+                                            pstmt.setDouble(paramIndex, Double.parseDouble(nextLine[colIndex]));
+                                            break;
+                                        case Types.TIMESTAMP:
+                                            pstmt.setTimestamp(paramIndex, Timestamp.valueOf(nextLine[colIndex]));
+                                            break;
+                                        case Types.OTHER:
+                                            PGobject jsonObject = new PGobject();
+                                            jsonObject.setType("jsonb");
+                                            jsonObject.setValue(nextLine[colIndex]);
+                                            pstmt.setObject(paramIndex, jsonObject);
+                                            break;
+                                        default:
+                                            pstmt.setObject(paramIndex, nextLine[colIndex]);
+                                    }
+                                } catch (NumberFormatException e) {
+                                    throw new RuntimeException("Failed to parse value '" + nextLine[colIndex] + "' for column " + column.getColumnName(), e);
+                                }
+                            } else {
+                                pstmt.setNull(paramIndex, colType);
+                            }
+                        }
+                        pstmt.addBatch();
+                    }
+                    pstmt.executeBatch();
+                }
             }
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException | IOException | CsvValidationException e) {
+                String context = e instanceof SQLException ? "Database error while loading CSV data for table " + tableName :
+                                 e instanceof IOException ? "IO error while reading CSV file " + resourcePath :
+                                                            "CSV validation error in file " + resourcePath;
+                throw new RuntimeException(context + ": " + e.getMessage(), e);
         }
     }
 
     public static void main(String[] args) {
-        executeSqlSchema("src/main/resources/sqlFiles/schema.sql");
+        executeSqlSchema("sqlFiles/schema.sql");
         primaryKeys();
-        loadCsvToTable("src/main/resources/data/recipes.csv", "recipes", RecipeCols.values());
-        loadCsvToTable("src/main/resources/data/categories.csv", "categories", CategoryCols.values());
-        loadCsvToTable("src/main/resources/data/types.csv", "types", TypeCols.values());
-        loadCsvToTable("src/main/resources/data/tags.csv", "tags", TagCols.values());
-        loadCsvToTable("src/main/resources/data/ingredients.csv", "ingredients", IngredientCols.values());
-        loadCsvToTable("src/main/resources/data/recipes_ingredients.csv", "recipes_ingredients", RecipeIngredientCols.values());
-        loadCsvToTable("src/main/resources/data/recipes_tags.csv", "recipes_tags", RecipeTagCols.values());
-        loadCsvToTable("src/main/resources/data/recipes_instructions.csv", "recipes_instructions", RecipeInstructionCols.values());
+        loadCsvToTable("data/recipes.csv", "recipes", RecipeCols.values());
+        loadCsvToTable("data/categories.csv", "categories", CategoryCols.values());
+        loadCsvToTable("data/types.csv", "types", TypeCols.values());
+        loadCsvToTable("data/tags.csv", "tags", TagCols.values());
+        loadCsvToTable("data/ingredients.csv", "ingredients", IngredientCols.values());
+        loadCsvToTable("data/recipes_ingredients.csv", "recipes_ingredients", RecipeIngredientCols.values());
+        loadCsvToTable("data/recipes_tags.csv", "recipes_tags", RecipeTagCols.values());
+        loadCsvToTable("data/recipes_instructions.csv", "recipes_instructions", RecipeInstructionCols.values());
     }
 }

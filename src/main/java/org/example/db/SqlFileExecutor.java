@@ -1,9 +1,8 @@
 package org.example.db;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,18 +18,26 @@ public class SqlFileExecutor {
     public void executeSqlFile() {
         try (Connection conn = TestConnect.dataSource().getConnection();
              Statement stmt = conn.createStatement()) {
-            for (String sqlPath: sqlPaths) {
-                String sqlString = new String(Files.readAllBytes(Paths.get(sqlPath)), StandardCharsets.UTF_8);
-                stmt.execute(sqlString);
+            for (String resourcePath : sqlPaths) {
+                try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
+                    if (inputStream == null) {
+                        throw new RuntimeException("SQL file not found in classpath: " + resourcePath);
+                    }
+                    String sqlString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                    stmt.execute(sqlString);
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to read SQL file: " + resourcePath, e);
+                }
             }
-        } catch (IOException | SQLException e) {
-            throw new RuntimeException("Failed to create SQL function", e);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to execute SQL function: " + e.getMessage(), e);
         }
     }
 
+
     public static void main(String[] args) {
         List<String> sqlPaths = List.of(
-                "src/main/resources/sqlFiles/recipeFunctions.sql"
+                "sqlFiles/recipeFunctions.sql"
         );
         SqlFileExecutor exec = new SqlFileExecutor(sqlPaths);
         exec.executeSqlFile();
