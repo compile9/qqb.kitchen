@@ -20,17 +20,6 @@ services:
       - my-network
     ports:
       - "8080:8080"
-    command:
-      sh
-#    command: >
-#      sh -c "
-#             ./wait-for-it.sh postgres:5432 --timeout=30 --strict -- &&
-#             echo 'Starting backend' &&
-#             java -cp classes:dependency/* org.example.db.TestConnect &&
-#             java -cp classes:dependency/* org.example.db.DataLoader &&
-#             java -cp classes:dependency/* org.example.db.SqlFileExecutor &&
-#             java -jar app.jar"
-
 
 networks:
   my-network:

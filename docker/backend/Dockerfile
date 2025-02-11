@@ -14,6 +14,6 @@ COPY .env /app/.env
 COPY --from=build /app/target/myKitchen-1.0-SNAPSHOT.jar app.jar
 COPY --from=build /app/target/classes /app/classes
 COPY --from=build /app/target/dependency /app/dependency
-COPY src ./src
-COPY pom.xml .
-ENTRYPOINT ["java","-jar","app.jar"]
+COPY wait-db.sh /app/wait-db.sh
+RUN chmod +x /app/wait-db.sh
+ENTRYPOINT ["/app/wait-db.sh"]
