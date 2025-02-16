@@ -2,7 +2,7 @@
 FROM maven:3.9.9-eclipse-temurin-21-jammy AS build
 WORKDIR /app
 COPY pom.xml .
-COPY src ./src
+COPY src/main ./src/main
 RUN mvn clean package
 RUN mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
 
