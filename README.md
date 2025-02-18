@@ -13,7 +13,7 @@ Discover and explore personalized recipes tailored to your taste!
 
 **tempNameHolder** is a responsive recipe website designed to provide users with an intuitive and engaging platform for discovering and managing recipes. The application features a robust backend built with **Java Spring Boot** and a **PostgreSQL database**, utilizing **PL/pgSQL** for stored procedures and functions to ensure efficient data management. The frontend, developed with **React** and **TypeScript**, delivers a modern, interactive user experience.
 
-The application is hosted on **Amazon Web Services (AWS)** for reliable and scalable accessibility. Ongoing development is focused on introducing new features, enhancing functionality, and improving the overall user experience.
+The application is containerized using **Docker**, including the frontend, backend and database, enabling consistent and efficient deployment across environments. It is hosted on **Amazon Web Services (AWS)** for reliable and scalable accessibility. Ongoing development is focused on introducing new features, enhancing functionality, and improving the overall user experience.
 
 
 ## Tech Stack
