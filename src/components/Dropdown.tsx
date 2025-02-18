@@ -27,7 +27,6 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 
     return (
         <div>
-            <Link to={navItem.href}>{navItem.name}</Link>
             {activeDropdown === navItem.id && navItem.dropdownItems && navItem.dropdownItems.length > 0 && (
                 <ul className="dropdown">
                     {navItem.dropdownItems.map(dropdownItem => {

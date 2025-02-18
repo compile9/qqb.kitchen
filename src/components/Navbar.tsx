@@ -30,6 +30,7 @@ const Navbar: React.FC<NavProps> = (props) => {
                 <Link to={"/"}>Home</Link>
                 {navItems.map(navItem => (
                     <li key={navItem.id} onMouseOver={() => handleMouseEnter(navItem.id)} onMouseLeave={() => handleMouseLeave()}>
+                        <a>{navItem.name}</a>
                         <Dropdown
                             navItem={navItem}
                             activeDropdown={activeDropdown}
@@ -45,4 +46,3 @@ const Navbar: React.FC<NavProps> = (props) => {
 };
 
 export default Navbar;
-

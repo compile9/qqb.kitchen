@@ -10,10 +10,10 @@ RUN mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
 # Runtime Stage
 FROM eclipse-temurin:21
 WORKDIR /app
-COPY .env /app/.env
+COPY .env .env
 COPY --from=build /app/target/myKitchen-1.0-SNAPSHOT.jar app.jar
-COPY --from=build /app/target/classes /app/classes
-COPY --from=build /app/target/dependency /app/dependency
-COPY /shell_scripts/wait-db.sh /app/wait-db.sh
-RUN chmod +x /app/wait-db.sh
-ENTRYPOINT ["/app/wait-db.sh"]
+COPY --from=build /app/target/classes classes
+COPY --from=build /app/target/dependency dependency
+COPY /shell_scripts/wait-db.sh wait-db.sh
+RUN chmod +x wait-db.sh
+ENTRYPOINT ["./wait-db.sh"]
