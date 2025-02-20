@@ -1,4 +1,4 @@
-# tempNameHolder
+# qqb
 Discover and explore personalized recipes tailored to your taste!
 
 ## Table of Contents
@@ -11,16 +11,16 @@ Discover and explore personalized recipes tailored to your taste!
 
 ## Project Overview
 
-**tempNameHolder** is a responsive recipe website designed to provide users with an intuitive and engaging platform for discovering and managing recipes. The application features a robust backend built with **Java Spring Boot** and a **PostgreSQL database**, utilizing **PL/pgSQL** for stored procedures and functions to ensure efficient data management. The frontend, developed with **React** and **TypeScript**, delivers a modern, interactive user experience.
+**qqb** is a responsive recipe website designed to provide users with an intuitive and engaging platform for discovering and managing recipes. The application features a robust backend built with **Java Spring Boot** and a **PostgreSQL database**, utilizing **PL/pgSQL** for stored procedures and functions to ensure efficient data management. The frontend, developed with **React** and **TypeScript**, delivers a modern, interactive user experience.
 
-The application is containerized using **Docker**, including the frontend, backend and database, enabling consistent and efficient deployment across environments. It is hosted on **Amazon Web Services (AWS)** for reliable and scalable accessibility. Ongoing development is focused on introducing new features, enhancing functionality, and improving the overall user experience.
+The application is containerized using **Docker**, with the frontend, backend, and database defined and orchestrated in a **Docker Compose YAML** file, enabling consistent deployment across environments. **Shell scripts** were implemented to automate the build and deployment process, ensuring the database container initializes before the backend, preventing errors and enabling reliable data fetching. It is hosted on **Amazon Web Services (AWS)** for reliable and scalable accessibility. Ongoing development is focused on introducing new features, enhancing functionality, and improving the overall user experience.
 
 
 ## Tech Stack
 - **Frontend**: React, TypeScript
 - **Backend**: Java Spring Boot (including custom RESTful APIs development)
 - **Database**: PostgreSQL (with PL/pgSQL for stored procedures and functions)
-- **DevOps**: Docker, CI/CD pipelines (TBD), Amazon Web Services (AWS)
+- **DevOps**: Docker (containerization and orchestration), Amazon Web Services (AWS), Shell Scripting (automation), CI/CD pipelines (in progress)
 
 ## Latest User Interface
 
@@ -41,6 +41,12 @@ The application is containerized using **Docker**, including the frontend, backe
 - **Dynamic Navigation System** _(Implemented)_: Allows users to filter recipes using multi-select dropdown menus, with support for dietary restrictions, meal types, cuisines, and more, all managed through URL-based state management.
 - **Recipe Instruction Page** _(Implemented)_: Clicking on a recipe image redirects users to a dedicated instruction page. This page displays categorized tags, a detailed ingredient list, and step-by-step preparation instructions, offering users a comprehensive cooking guide.
 - **Upcoming Feature** _(Ongoing)_: Placeholder
+
+## Database Schema
+
+The current database structure:
+
+<img src="src/main/resources/image/schema.png" alt="SQL Schema" width=500/>
 
 ## Disclaimer
 
