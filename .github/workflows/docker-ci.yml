@@ -21,8 +21,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ vars.DOCKER_USERNAME }}/backend
-            ${{ vars.DOCKER_USERNAME }}/frontend
+            ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-backend
+            ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-frontend
           tags: |
             type=ref, event=branch
             type=sha
