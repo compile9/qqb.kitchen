@@ -27,3 +27,5 @@ node_modules/
 dist/
 
 *.pem
+
+/scripts/python/update_ddns.py
