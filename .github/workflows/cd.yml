@@ -1,7 +1,7 @@
 name: CD Pipeline for EC2 with Docker Compose
 
 on:
-  workflow_run: :
+  workflow_run:
     workflows: ["Build and Push Docker Images"]
     types:
       - completed
