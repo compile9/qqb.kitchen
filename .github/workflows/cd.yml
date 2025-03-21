@@ -21,6 +21,7 @@ jobs:
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} 'ls'
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} 'ls
           touch /home/ubuntu/file.txt
           echo -e 'The only true wisdom is in knowing you know nothing.\nSocrates' > /home/ubuntu/file.txt
+          '
