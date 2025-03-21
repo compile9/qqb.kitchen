@@ -1,0 +1,25 @@
+name: CD Pipeline for EC2 with Docker Compose
+
+on:
+  workflow_run: :
+    workflows: ["Build and Push Docker Images"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2
+        env:
+          HOST: ${{ secrets.EC2_HOST }}
+          PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+          USER: ${{ secrets.EC2_USER }}
+
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} 'ls'
+          echo -e 'The only true wisdom is in knowing you know nothing.\nSocrates' >> /home/ubuntu/file.txt
