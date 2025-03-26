@@ -13,6 +13,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set Tag variable
+        run: echo "TAG=sha-${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Substitute env variables in docker compose file before scp
+        run: envsubst < docker-compose.yml | sponge docker-compose.yml
+        env:
+          DOCKERHUB_USERNAME: ${{ vars.DOCKER_USERNAME }}
+          TAG: ${{ env.TAG }}
+
       - name: Deploy to EC2
         env:
           HOST: ${{ secrets.EC2_HOST }}
@@ -21,7 +30,9 @@ jobs:
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} 'ls
-          touch /home/ubuntu/file.txt
-          echo -e 'The only true wisdom is in knowing you know nothing.\nSocrates' > /home/ubuntu/file.txt
+          scp -o StrictHostKeyChecking=no -i private_key docker-compose.yml ${USER}@${HOST}:/home/ubuntu/docker-compose.yml
+          scp -o StrictHostKeyChecking=no -i private_key scripts/shell/docker-rebuild.sh ${USER}@${HOST}:/home/ubuntu/docker-rebuild.sh
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} '
+            chmod +x /home/ubuntu/docker-rebuild.sh
+            /home/ubuntu/docker-rebuild.sh
           '

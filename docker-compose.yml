@@ -9,9 +9,7 @@ services:
       - my-network
 
   backend:
-    build:
-      context: .
-      dockerfile: docker/backend/Dockerfile
+    image: ${vars.DOCKER_USERNAME}/qqb-kitchen-backend:${TAG}
     container_name: my-kitchen-backend
     env_file: .env
     depends_on:
@@ -22,9 +20,7 @@ services:
       - "8080:8080"
 
   frontend:
-    build:
-      context: .
-      dockerfile: docker/frontend/Dockerfile
+    image: ${vars.DOCKER_USERNAME}/qqb-kitchen-backend:${TAG}
     container_name: my-kitchen-frontend
     env_file: .env
     depends_on:
