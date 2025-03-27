@@ -9,7 +9,7 @@ services:
       - my-network
 
   backend:
-    image: ${vars.DOCKER_USERNAME}/qqb-kitchen-backend:${TAG}
+    image: ${DOCKERHUB_USERNAME}/qqb-kitchen-backend:${TAG}
     container_name: my-kitchen-backend
     env_file: .env
     depends_on:
@@ -20,7 +20,7 @@ services:
       - "8080:8080"
 
   frontend:
-    image: ${vars.DOCKER_USERNAME}/qqb-kitchen-backend:${TAG}
+    image: ${DOCKERHUB_USERNAME}/qqb-kitchen-backend:${TAG}
     container_name: my-kitchen-frontend
     env_file: .env
     depends_on:
