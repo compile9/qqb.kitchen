@@ -17,7 +17,9 @@ jobs:
         run: echo "TAG=sha-${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: Substitute env variables in docker compose file before scp
-        run: envsubst < docker-compose.yml | sponge docker-compose.yml
+        run: |
+          envsubst < docker-compose.yml > docker-compose.tmp
+          mv docker-compose.tmp docker-compose.yml
         env:
           DOCKERHUB_USERNAME: ${{ vars.DOCKER_USERNAME }}
           TAG: ${{ env.TAG }}
