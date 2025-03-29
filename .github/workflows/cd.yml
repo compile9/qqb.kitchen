@@ -13,6 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ vars.DOCKER_USERNAME }}" --password-stdin
+
       - name: Set Tag variable
         run: echo "TAG=sha-${GITHUB_SHA::7}" >> $GITHUB_ENV
 
@@ -29,13 +32,15 @@ jobs:
           HOST: ${{ secrets.EC2_HOST }}
           PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           USER: ${{ secrets.EC2_USER }}
+          ENV: ${{ secrets.ENV_FILE}}
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          scp -o StrictHostKeyChecking=no -i private_key docker-compose.yml ${USER}@${HOST}:/home/ubuntu/docker-compose.yml
-          scp -o StrictHostKeyChecking=no -i private_key scripts/shell/docker-rebuild.sh ${USER}@${HOST}:/home/ubuntu/docker-rebuild.sh
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} '
-            echo "${ENV_FILE}" > /home/ubuntu/.env
+          scp -o StrictHostKeyChecking=no -i private_key docker-compose.yml $USER@$HOST:/home/ubuntu/docker-compose.yml
+          scp -o StrictHostKeyChecking=no -i private_key scripts/shell/docker-rebuild.sh $USER@$HOST:/home/ubuntu/docker-rebuild.sh
+          ssh -o StrictHostKeyChecking=no -i private_key $USER@HOST 
+          '
+            echo "$ENV" > /home/ubuntu/.env
             chmod 600 /home/ubuntu/.env
             chmod +x /home/ubuntu/docker-rebuild.sh
             /home/ubuntu/docker-rebuild.sh
