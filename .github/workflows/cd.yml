@@ -13,9 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ vars.DOCKER_USERNAME }}" --password-stdin
-
       - name: Set Tag variable
         run: echo "TAG=sha-${GITHUB_SHA::7}" >> $GITHUB_ENV
 
@@ -33,6 +30,8 @@ jobs:
           PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           USER: ${{ secrets.EC2_USER }}
           ENV: ${{ secrets.ENV_FILE}}
+          DOCKERHUB_USER: ${{ vars.DOCKER_USERNAME }}
+          DOCKERHUB_PASS: ${{ secrets.DOCKER_PASSWORD }}
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
@@ -41,6 +40,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} << EOF
             echo "$ENV" > /home/ubuntu/.env
             chmod 600 /home/ubuntu/.env
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
             chmod +x /home/ubuntu/docker-rebuild.sh
             /home/ubuntu/docker-rebuild.sh
           EOF
