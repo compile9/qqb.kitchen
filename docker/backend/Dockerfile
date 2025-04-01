@@ -10,7 +10,6 @@ RUN mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
 # Runtime Stage
 FROM eclipse-temurin:21
 WORKDIR /app
-COPY .env .env
 COPY --from=build /app/target/myKitchen-1.0-SNAPSHOT.jar app.jar
 COPY --from=build /app/target/classes classes
 COPY --from=build /app/target/dependency dependency
