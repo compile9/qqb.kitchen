@@ -2,7 +2,8 @@ services:
   postgres:
     image: postgres
     container_name: my-kitchen-database
-    env_file: .env
+    volumes:
+      - ./.env:/app/.env
     ports:
       - "5432:5432"
     networks:
@@ -24,7 +25,8 @@ services:
   frontend:
     image: ${DOCKERHUB_USERNAME}/qqb-kitchen-frontend:${TAG}
     container_name: my-kitchen-frontend
-    env_file: .env
+    volumes:
+      - ./.env:/app/.env
     depends_on:
       - backend
     networks:
