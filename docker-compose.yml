@@ -11,9 +11,6 @@ services:
   backend:
     image: ${DOCKERHUB_USERNAME}/qqb-kitchen-backend:${TAG}
     container_name: my-kitchen-backend
-    volumes:
-      - ./src/main/resources/data:/app/src/main/resources/data
-      - ./.env:/app/.env
     env_file: .env
     depends_on:
       - postgres

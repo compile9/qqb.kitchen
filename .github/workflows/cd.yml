@@ -37,8 +37,6 @@ jobs:
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           scp -o StrictHostKeyChecking=no -i private_key docker-compose.yml ${USER}@${HOST}:/home/ubuntu/docker-compose.yml
           scp -o StrictHostKeyChecking=no -i private_key scripts/shell/docker-rebuild.sh ${USER}@${HOST}:/home/ubuntu/docker-rebuild.sh
-          ssh -v -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} mkdir -p /home/ubuntu/src/main/resources/data/
-          scp -v -r -o StrictHostKeyChecking=no -i private_key src/main/resources/data ${USER}@${HOST}:/home/ubuntu/src/main/resources/data/
           ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} << EOF
             echo "$ENV" > /home/ubuntu/.env
             chmod 600 /home/ubuntu/.env
