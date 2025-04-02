@@ -13,7 +13,7 @@ services:
     container_name: my-kitchen-backend
     volumes:
       - /home/ubuntu/src/main/resources/data:/app/src/main/resources/data
-    env_file: .env
+      - ./.env:/app/.env
     depends_on:
       - postgres
     networks:
