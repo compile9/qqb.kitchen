@@ -13,9 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set Tag variable
-        run: echo "TAG=sha-${GITHUB_SHA::7}" >> $GITHUB_ENV
-
       - name: Add .env file
         run: echo "${{ secrets.ENV_FILE }}" > .env
 
@@ -37,15 +34,32 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Extract Docker images metadata
-        id: meta
+      - name: Extract Docker Backend image metadata
+        id: meta-backend
         uses: docker/metadata-action@v5
         with:
-          images: |
-            ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-backend
-            ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-frontend
+          images: ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-backend
           tags: |
-            type=ref, event=branch
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      - name: Extract Docker Frontend image metadata
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-frontend
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
             type=sha
 
       - name: Set up Docker Buildx
@@ -57,8 +71,8 @@ jobs:
           context: ./
           file: ./docker/backend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-backend:${{ env.TAG }}
-          annotations: ${{ steps.meta.outputs.annotations }}
+          tags: ${{ steps.meta-backend.outputs.tags }}
+          annotations: ${{ steps.meta-backend.outputs.annotations }}
           provenance: true
           sbom: true
 
@@ -68,7 +82,7 @@ jobs:
           context: ./
           file: ./docker/frontend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-frontend:${{ env.TAG }}
-          annotations: ${{ steps.meta.outputs.annotations }}
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          annotations: ${{ steps.meta-frontend.outputs.annotations }}
           provenance: true
           sbom: true

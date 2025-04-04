@@ -13,8 +13,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set Tag variable
-        run: echo "TAG=sha-${GITHUB_SHA::7}" >> $GITHUB_ENV
+      - name: Extract Backend Docker image tag
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-backend
+          tags: |
+            type=sha
+
+      - name: Extract Frontend Docker image tag
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKER_USERNAME }}/qqb-kitchen-frontend
+          tags: |
+            type=sha
 
       - name: Substitute env variables in docker compose file before scp
         run: |
@@ -22,7 +35,8 @@ jobs:
           mv docker-compose.tmp docker-compose.yml
         env:
           DOCKERHUB_USERNAME: ${{ vars.DOCKER_USERNAME }}
-          TAG: ${{ env.TAG }}
+          BACKEND_TAG: ${{ steps.meta-backend.outputs.version }}
+          FRONTEND_TAG: ${{ steps.meta-frontend.outputs.version }}
 
       - name: Deploy to EC2
         env:
@@ -44,4 +58,4 @@ jobs:
             chmod +x /home/ubuntu/docker-rebuild.sh
             /home/ubuntu/docker-rebuild.sh
           EOF
-          rm -f private_key
+          rm -f PRIVATE_KEY
