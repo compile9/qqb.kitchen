@@ -21,15 +21,15 @@ jobs:
 
       - name: Add CSV files
         run: |
-          mkdir src/main/resources/data
-          echo "${{ secrets.CSV_CATEGORIES }}" | base64 -d > categories.csv
-          echo "${{ secrets.CSV_INGREDIENTS }}" | base64 -d > ingredients.csv
-          echo "${{ secrets.CSV_RECIPES }}" | base64 -d > recipes.csv
-          echo "${{ secrets.CSV_RECIPES_INGREDIENTS }}" | base64 -d > recipes_ingredients.csv
-          echo "${{ secrets.CSV_RECIPES_INSTRUCTIONS }}" | base64 -d > recipes_instructions.csv          
-          echo "${{ secrets.CSV_RECIPES_TAGS }}" | base64 -d > recipes_tags.csv
-          echo "${{ secrets.CSV_TYPES }}" | base64 -d > types.csv
-          echo "${{ secrets.CSV_TAGS }}" | base64 -d > tags.csv
+          mkdir csv-files
+          echo "${{ secrets.CSV_CATEGORIES }}" | base64 -d > csv-files/categories.csv
+          echo "${{ secrets.CSV_INGREDIENTS }}" | base64 -d > csv-files/ingredients.csv
+          echo "${{ secrets.CSV_RECIPES }}" | base64 -d > csv-files/recipes.csv
+          echo "${{ secrets.CSV_RECIPES_INGREDIENTS }}" | base64 -d > csv-files/recipes_ingredients.csv
+          echo "${{ secrets.CSV_RECIPES_INSTRUCTIONS }}" | base64 -d > csv-files/recipes_instructions.csv          
+          echo "${{ secrets.CSV_RECIPES_TAGS }}" | base64 -d > csv-files/recipes_tags.csv
+          echo "${{ secrets.CSV_TYPES }}" | base64 -d > csv-files/types.csv
+          echo "${{ secrets.CSV_TAGS }}" | base64 -d > csv-files/tags.csv
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
