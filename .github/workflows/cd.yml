@@ -66,16 +66,31 @@ jobs:
             
             [Service]
             ExecStart=/usr/bin/python3 /home/ubuntu/ddns_script.py
-            Restart=on-failure
+            Restart=always
             
             [Install]
             WantedBy=multi-user.target
             EOL'
             
-            # Enable and start the service
+            # Create Docker service for auto-restart
+            sudo bash -c 'cat > /etc/systemd/system/docker-compose.service << EOL
+            [Unit]
+            Description=Docker Compose
+            Requires=docker.service
+            After=docker.service network.target
+            
+            [Service]
+            ExecStart=/home/ubuntu/docker-rebuild.sh
+            Restart=always
+            
+            [Install]
+            WantedBy=multi-user.target
+            EOL'
+          
+            # Enable two services
             sudo systemctl daemon-reload
-            sudo systemctl enable ddns.service
-            sudo systemctl start ddns.service
+            sudo systemctl enable ddns.service docker-compose.service
+            sudo systemctl start ddns.service 
             
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
             chmod +x /home/ubuntu/docker-rebuild.sh
