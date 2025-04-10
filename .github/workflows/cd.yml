@@ -50,13 +50,14 @@ jobs:
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          echo "$DDNS_SCRIPT" | base64 -d > ddns_script.py
+          scp -o StrictHostKeyChecking=no -i private_key ddns_script.py ${USER}@${HOST}:/home/ubuntu/ddns_script.py
           scp -o StrictHostKeyChecking=no -i private_key docker-compose.yml ${USER}@${HOST}:/home/ubuntu/docker-compose.yml
           scp -o StrictHostKeyChecking=no -i private_key scripts/shell/docker-rebuild.sh ${USER}@${HOST}:/home/ubuntu/docker-rebuild.sh
           ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} << EOF
             echo "$ENV" > /home/ubuntu/.env
             chmod 600 /home/ubuntu/.env
-          
-            echo "$DDNS_SCRIPT" > /home/ubuntu/ddns_script.py
+        
             chmod +x /home/ubuntu/ddns_script.py
             pip3 install boto3 python-dotenv
             sudo bash -c 'cat > /etc/systemd/system/ddns.service << EOL
