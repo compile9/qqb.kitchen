@@ -46,6 +46,7 @@ jobs:
           ENV: ${{ secrets.ENV_FILE}}
           DOCKERHUB_USER: ${{ vars.DOCKER_USERNAME }}
           DOCKERHUB_PASS: ${{ secrets.DOCKER_PASSWORD }}
+          DDNS_SCRIPT: ${{ secrets.UPDATE_DDNS }}
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
@@ -54,8 +55,30 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} << EOF
             echo "$ENV" > /home/ubuntu/.env
             chmod 600 /home/ubuntu/.env
+          
+            echo "$DDNS_SCRIPT" > /home/ubuntu/ddns_script.py
+            chmod +x /home/ubuntu/ddns_script.py
+            pip3 install boto3 python-dotenv
+            sudo bash -c 'cat > /etc/systemd/system/ddns.service << EOL
+            [Unit]
+            Description=Dynamic DNS Updater
+            After=network.target
+            
+            [Service]
+            ExecStart=/usr/bin/python3 /home/ubuntu/ddns_script.py
+            Restart=on-failure
+            
+            [Install]
+            WantedBy=multi-user.target
+            EOL'
+            
+            # Enable and start the service
+            sudo systemctl daemon-reload
+            sudo systemctl enable ddns.service
+            sudo systemctl start ddns.service
+            
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
             chmod +x /home/ubuntu/docker-rebuild.sh
             /home/ubuntu/docker-rebuild.sh
           EOF
-          rm -f PRIVATE_KEY
+          rm -f private_key
