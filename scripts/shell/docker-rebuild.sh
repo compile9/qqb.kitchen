@@ -1,3 +1,4 @@
+#!/bin/bash
 docker container prune -f
 
 dangling_images=$(docker images | grep "<none>" | awk '{print $3}')
