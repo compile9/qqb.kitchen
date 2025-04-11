@@ -61,32 +61,32 @@ jobs:
             chmod +x /home/ubuntu/ddns_script.py
             pip3 install boto3 python-dotenv
             sudo bash -c 'cat > /etc/systemd/system/ddns.service << EOL
-            [Unit]
-            Description=Dynamic DNS Updater
-            After=network.target
-            
-            [Service]
-            ExecStart=/usr/bin/python3 /home/ubuntu/ddns_script.py
-            Restart=always
-            
-            [Install]
-            WantedBy=multi-user.target
-            EOL'
-            
+          [Unit]
+          Description=Dynamic DNS Updater
+          After=network.target
+          
+          [Service]
+          ExecStart=/usr/bin/python3 /home/ubuntu/ddns_script.py
+          Restart=always
+          
+          [Install]
+          WantedBy=multi-user.target
+          EOL'
+             
             # Create Docker service for auto-restart
             sudo bash -c 'cat > /etc/systemd/system/docker-compose.service << EOL
-            [Unit]
-            Description=Docker Compose
-            Requires=docker.service
-            After=docker.service network.target
-            
-            [Service]
-            ExecStart=/home/ubuntu/docker-rebuild.sh
-            Restart=always
-            
-            [Install]
-            WantedBy=multi-user.target
-            EOL'
+          [Unit]
+          Description=Docker Compose
+          Requires=docker.service
+          After=docker.service network.target
+          
+          [Service]
+          ExecStart=/home/ubuntu/docker-rebuild.sh
+          Restart=always
+          
+          [Install]
+          WantedBy=multi-user.target
+          EOL'
           
             # Enable two services
             sudo systemctl daemon-reload
