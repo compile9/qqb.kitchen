@@ -82,7 +82,7 @@ jobs:
           [Unit]
           Description=Docker Compose
           Requires=docker.service
-          After=docker.service network.target
+          After=docker.service network-online.target
           
           [Service]
           User=ubuntu
@@ -96,7 +96,7 @@ jobs:
             # Enable two services
             sudo systemctl daemon-reload
             sudo systemctl enable ddns.service docker-compose.service
-            sudo systemctl start ddns.service 
+            sudo systemctl start ddns.service docker-compose.service
             
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
             chmod +x /home/ubuntu/docker-rebuild.sh
