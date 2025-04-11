@@ -83,11 +83,15 @@ jobs:
           Description=Docker Compose
           Requires=docker.service
           After=docker.service network-online.target
+          Wants=network-online.target
           
           [Service]
+          Type=oneshot
           User=ubuntu
+          WorkingDirectory=/home/ubuntu
+          ExecStartPre=/bin/sleep 10
           ExecStart=/home/ubuntu/docker-rebuild.sh
-          Restart=always
+          RemainAfterExit=yes
           
           [Install]
           WantedBy=multi-user.target
