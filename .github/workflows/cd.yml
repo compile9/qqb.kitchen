@@ -59,13 +59,14 @@ jobs:
             chmod 600 /home/ubuntu/.env
         
             chmod +x /home/ubuntu/ddns_script.py
-            pip3 install boto3 python-dotenv
+            sudo pip3 install boto3 python-dotenv requests
             sudo bash -c 'cat > /etc/systemd/system/ddns.service << EOL
           [Unit]
           Description=Dynamic DNS Updater
           After=network.target
           
           [Service]
+          User=ubuntu
           ExecStart=/usr/bin/python3 /home/ubuntu/ddns_script.py
           Restart=always
           
@@ -81,6 +82,7 @@ jobs:
           After=docker.service network.target
           
           [Service]
+          User=ubuntu
           ExecStart=/home/ubuntu/docker-rebuild.sh
           Restart=always
           
