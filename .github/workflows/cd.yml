@@ -59,6 +59,8 @@ jobs:
             chmod 600 /home/ubuntu/.env
         
             chmod +x /home/ubuntu/ddns_script.py
+            sudo apt update
+            sudo apt install -y python3-pip
             sudo pip3 install boto3 python-dotenv requests
             sudo bash -c 'cat > /etc/systemd/system/ddns.service << EOL
           [Unit]
