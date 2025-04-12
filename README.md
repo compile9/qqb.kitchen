@@ -1,6 +1,5 @@
-# qqb
-Discover and explore personalized recipes tailored to your taste!
-
+# [qqb.kitchen](https://qqb.kitchen/)
+This is my personal recipe website designed to provide users with an engaging platform for discovering and managing recipes.
 ## Table of Contents
 
 - [Project Overview](#project-overview)
@@ -11,16 +10,13 @@ Discover and explore personalized recipes tailored to your taste!
 
 ## Project Overview
 
-**qqb** is a responsive recipe website designed to provide users with an intuitive and engaging platform for discovering and managing recipes. The application features a robust backend built with **Java Spring Boot** and a **PostgreSQL database**, utilizing **PL/pgSQL** for stored procedures and functions to ensure efficient data management. The frontend, developed with **React** and **TypeScript**, delivers a modern, interactive user experience.
-
-The application is containerized using **Docker**, with the frontend, backend, and database defined and orchestrated in a **Docker Compose YAML** file, enabling consistent deployment across environments. **Shell scripts** were implemented to automate the build and deployment process, ensuring the database container initializes before the backend, preventing errors and enabling reliable data fetching. It is hosted on **Amazon Web Services (AWS)** for reliable and scalable accessibility. Ongoing development is focused on introducing new features, enhancing functionality, and improving the overall user experience.
-
+**[qqb.kitchen](https://qqb.kitchen/)** is a containerized web application featuring a Java Spring Boot backend with PostgreSQL database and a React/TypeScript frontend. The infrastructure leverages Docker for containerization and orchestration, with deployment automated through a CI/CD pipeline that builds and pushes custom images to DockerHub, then deploys them alongside PostgreSQL to AWS. A shell script executes the Docker Compose configuration to orchestrate proper container initialization sequence. This architecture enables consistent, reliable deployments across environments while development continues on new features and enhancements.
 
 ## Tech Stack
 - **Frontend**: React, TypeScript
 - **Backend**: Java Spring Boot (including custom RESTful APIs development)
 - **Database**: PostgreSQL (with PL/pgSQL for stored procedures and functions)
-- **DevOps**: Docker (containerization and orchestration), Amazon Web Services (AWS), Shell Scripting (automation), CI/CD pipelines (in progress)
+- **DevOps**: Docker (containerization and orchestration), AWS (EC2, Route 53, IAM), Shell Scripting (automation), GitHub Actions (CI/CD pipelines)
 
 ## Latest User Interface
 
@@ -50,7 +46,4 @@ The current database structure:
 
 ## Disclaimer
 
-This project is currently under active development and is part of my personal portfolio. It is intended to showcase my skills in fullstack development. Please note:
-- This project is not suitable for production use due to its experimental nature and ongoing development.
-- It is intended for demonstration purposes only.
-- Features are being actively added and refined.
+This project is part of my personal portfolio showcasing my ability to develop full stack applications and implement DevOps best practices for deployment and infrastructure management. While you're welcome to explore and learn from the code, please respect that it represents my intellectual effort and approach. Not intended for production use or direct replication for commercial purposes. Feel free to reach out if you have questions about my implementation!
