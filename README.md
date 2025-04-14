@@ -7,6 +7,7 @@ This is my personal recipe website designed to provide users with an engaging pl
 - [Tech Stack](#tech-stack)
 - [Latest User Interface](#latest-user-interface)
 - [Features](#features)
+- [Database Schema](#database-schema)
 - [Disclaimer](#disclaimer)
 
 ## Project Overview
@@ -54,4 +55,4 @@ The current database structure:
 
 ## Disclaimer
 
-This project is part of my personal portfolio showcasing my ability to develop full stack applications and implement DevOps best practices for deployment and infrastructure management. While you're welcome to explore and learn from the code, please respect that it represents my intellectual effort and approach. Not intended for production use or direct replication for commercial purposes. Feel free to reach out if you have questions about my implementation!
+This project is part of my personal portfolio showcasing my ability to develop full stack applications and implement DevOps best practices for deployment and infrastructure management. While you're welcome to explore and learn from the code, please respect that it represents my intellectual effort and approach. Not intended for production use or direct replication for commercial purposes. If you have questions about my implementation, feel free to reach out to [me](https://www.linkedin.com/in/dns689/) on LinkedIn.
