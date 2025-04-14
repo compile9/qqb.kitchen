@@ -1,5 +1,6 @@
 # [qqb.kitchen](https://qqb.kitchen/)
 This is my personal recipe website designed to provide users with an engaging platform for discovering and managing recipes.
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
@@ -10,13 +11,19 @@ This is my personal recipe website designed to provide users with an engaging pl
 
 ## Project Overview
 
-**[qqb.kitchen](https://qqb.kitchen/)** is a containerized web application featuring a Java Spring Boot backend with PostgreSQL database and a React/TypeScript frontend. The infrastructure leverages Docker for containerization and orchestration, with deployment automated through a CI/CD pipeline that builds and pushes custom images to DockerHub, then deploys them alongside PostgreSQL to AWS. A shell script executes the Docker Compose configuration to orchestrate proper container initialization sequence. This architecture enables consistent, reliable deployments across environments while development continues on new features and enhancements.
+**[qqb.kitchen](https://qqb.kitchen/)** is a containerized web application featuring a <code style="color : darkorange">**Java**</code> Spring Boot backend 
+with <code style="color : blue">**PostgreSQL**</code> database and a <code style="color : fuchsia">**React**</code>/<code style="color : greenyellow">**TypeScript**</code> frontend. 
+The infrastructure leverages <code style="color : cyan">**Docker**</code> for containerization and orchestration, 
+with deployment automated through a <code style="color : green">**CI/CD**</code> pipeline that builds and pushes custom images to DockerHub, 
+then deploys them alongside PostgreSQL to <code style="color : gold">**Amazon Web Services (AWS)**</code>. 
+A shell script executes the Docker Compose configuration to orchestrate proper container initialization sequence. This architecture enables consistent, 
+reliable deployments across environments while development continues on new features and enhancements.
 
 ## Tech Stack
-- **Frontend**: React, TypeScript
-- **Backend**: Java Spring Boot (including custom RESTful APIs development)
-- **Database**: PostgreSQL (with PL/pgSQL for stored procedures and functions)
-- **DevOps**: Docker (containerization and orchestration), AWS (EC2, Route 53, IAM), Shell Scripting (automation), GitHub Actions (CI/CD pipelines)
+- <code style="color : magenta">**Frontend**</code>: React, TypeScript
+- <code style="color : gold">**Backend**</code>: Java Spring Boot (including custom RESTful APIs development)
+- <code style="color : cyan">**Database**</code>: PostgreSQL (with PL/pgSQL for stored procedures and functions)
+- <code style="color : green">**DevOps**</code>: Docker (containerization and orchestration), AWS (EC2, Route 53, IAM), Shell Scripting (automation), GitHub Actions (CI/CD pipelines)
 
 ## Latest User Interface
 
