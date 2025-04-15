@@ -7,23 +7,25 @@ This is my personal recipe website designed to provide users with an engaging pl
 - [Tech Stack](#tech-stack)
 - [Latest User Interface](#latest-user-interface)
 - [Features](#features)
+- [Database Schema](#database-schema)
 - [Disclaimer](#disclaimer)
 
 ## Project Overview
-
 **[qqb.kitchen](https://qqb.kitchen/)** is a containerized web application featuring a <code style="color : darkorange">**Java**</code> Spring Boot backend 
-with <code style="color : blue">**PostgreSQL**</code> database and a <code style="color : fuchsia">**React**</code>/<code style="color : greenyellow">**TypeScript**</code> frontend. 
-The infrastructure leverages <code style="color : cyan">**Docker**</code> for containerization and orchestration, 
-with deployment automated through a <code style="color : green">**CI/CD**</code> pipeline that builds and pushes custom images to DockerHub, 
-then deploys them alongside PostgreSQL to <code style="color : gold">**Amazon Web Services (AWS)**</code>. 
-A shell script executes the Docker Compose configuration to orchestrate proper container initialization sequence. This architecture enables consistent, 
-reliable deployments across environments while development continues on new features and enhancements.
+ with <code style="color : blue">**PostgreSQL**</code> database and a <code style="color : fuchsia">**React**</code>/<code style="color : greenyellow">**TypeScript**</code> frontend. 
+ The infrastructure leverages <code style="color : cyan">**Docker**</code> for containerization and orchestration, 
+ with deployment automated through a <code style="color : green">**CI/CD**</code> pipeline that builds and pushes custom images to DockerHub, 
+ then deploys them alongside PostgreSQL to <code style="color : gold">**Amazon Web Services (AWS)**</code>
 
 ## Tech Stack
-- <code style="color : magenta">**Frontend**</code>: React, TypeScript
-- <code style="color : gold">**Backend**</code>: Java Spring Boot (including custom RESTful APIs development)
-- <code style="color : cyan">**Database**</code>: PostgreSQL (with PL/pgSQL for stored procedures and functions)
-- <code style="color : green">**DevOps**</code>: Docker (containerization and orchestration), AWS (EC2, Route 53, IAM), Shell Scripting (automation), GitHub Actions (CI/CD pipelines)
+- **Frontend**: ![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB), ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)
+- **Backend**: ![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=blue) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff) (including custom RESTful APIs development)
+- **Database**: ![Postgres](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white) (with PL/pgSQL for stored procedures and functions)
+- **DevOps**:
+  - ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff) (containerization and orchestration)
+  - ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?logo=amazon-web-services&logoColor=white) (EC2, Route 53, IAM)
+  - ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=github-actions&logoColor=white) (CI/CD pipelines)
+  - Shell Scripting (automation)
 
 ## Latest User Interface
 
@@ -53,4 +55,4 @@ The current database structure:
 
 ## Disclaimer
 
-This project is part of my personal portfolio showcasing my ability to develop full stack applications and implement DevOps best practices for deployment and infrastructure management. While you're welcome to explore and learn from the code, please respect that it represents my intellectual effort and approach. Not intended for production use or direct replication for commercial purposes. Feel free to reach out if you have questions about my implementation!
+This project is part of my personal portfolio showcasing my ability to develop full stack applications and implement DevOps best practices for deployment and infrastructure management. While you're welcome to explore and learn from the code, please respect that it represents my intellectual effort and approach. Not intended for production use or direct replication for commercial purposes. If you have questions about my implementation, feel free to reach out to [me](https://www.linkedin.com/in/dns689/) on LinkedIn.
