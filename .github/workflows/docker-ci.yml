@@ -31,9 +31,7 @@ jobs:
         run: |
           mkdir recipes-images
           mkdir csv-files-temp
-        # get the original recipes CSV with external URLs
           echo "${{ secrets.CSV_RECIPES }}" | base64 -d > csv-files-temp/recipes.csv
-        # process the file
           python3 scripts/python/process_images.py \
           --input-csv csv-files-temp/recipes.csv \
           --output-csv csv-files/recipes.csv \
