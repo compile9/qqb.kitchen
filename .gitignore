@@ -17,7 +17,7 @@ target/
 
 ### Data ###
 *.csv
-*.txt
+notes.txt
 src/main/resources/sqlQueryTests/
 
 ### Node Modules ###
