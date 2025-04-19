@@ -3,6 +3,7 @@ FROM maven:3.9.9-eclipse-temurin-21-jammy AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src/main ./src/main
+COPY src/main/resources/recipes-images /app/src/main/resources/recipes-images
 RUN mvn clean package
 RUN mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
 

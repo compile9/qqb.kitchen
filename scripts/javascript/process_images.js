@@ -8,33 +8,37 @@ const csvFilePath = 'csv-files/recipes.csv';
 const imagesDir = 'src/main/resources/recipes-images';
 const imageColumn = 'image';
 
-// retry function
-async function downloadWithRetry(url, options, retries = 3) {
+async function downloadWithRetry(url, options, retries = 3, delay = 2000) {
   try {
     return await axios.get(url, options);
   } catch (error) {
-    if (retries <= 0) throw error;
+    if (retries <= 0) {
+      console.error(`Failed to download ${url} after multiple attempts.`);
+      throw error;
+    }
     console.log(`Retrying download for ${url}... (${retries} attempts left)`);
-    await new Promise(r => setTimeout(r, 2000)); //
-    return downloadWithRetry(url, options, retries - 1);
+    await new Promise((r) => setTimeout(r, delay));
+    return downloadWithRetry(url, options, retries - 1, delay * 2);
   }
 }
 
-async function downloadImage(imageUrl, imagesDir) {
+async function downloadImage(imageUrl, imagesDir, failedUrlsLog = 'failed_downloads.log') {
   try {
     const urlPath = new URL(imageUrl).pathname;
     const filename = path.basename(urlPath);
-    // form a new local path
     const imagePath = path.join(imagesDir, filename);
-    // download from ibb url
-//    const response = await axios.get(imageUrl, { responseType: 'arraybuffer', timeout: 30000 });
-    const response = await downloadWithRetry(imageUrl, { responseType: 'arraybuffer', timeout: 60000 });
-    // write image data into imageUrl
+
+    const response = await downloadWithRetry(imageUrl, {
+      responseType: 'arraybuffer',
+      timeout: 60000,
+    });
+
     fs.writeFileSync(imagePath, response.data);
     console.log(`Downloaded: ${imagePath}`);
     return imagePath;
   } catch (error) {
     console.error(`Error downloading ${imageUrl}: ${error.message}`);
+    fs.appendFileSync(failedUrlsLog, `${imageUrl}\n`);
     return null;
   }
 }
