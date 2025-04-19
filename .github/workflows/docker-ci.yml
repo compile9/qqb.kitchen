@@ -28,6 +28,16 @@ jobs:
           echo "${{ secrets.CSV_TYPES }}" | base64 -d > csv-files/types.csv
           echo "${{ secrets.CSV_TAGS }}" | base64 -d > csv-files/tags.csv
 
+      - name: Run the JS script to download images and update recipes CSV image column
+        run: node scripts/download-images.js
+
+      - name: Upload recipe images
+        uses: actions/upload-artifact@v3
+        with:
+          name: recipe-images
+          path: src/main/resources/recipes-images/
+          retention-days: 1
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
