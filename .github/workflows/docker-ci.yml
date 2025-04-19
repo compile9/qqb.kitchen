@@ -29,10 +29,10 @@ jobs:
           echo "${{ secrets.CSV_TAGS }}" | base64 -d > csv-files/tags.csv
 
       - name: Run the JS script to download images and update recipes CSV image column
-        run: node scripts/download-images.js
+        run: node scripts/javascript/download-images.js
 
       - name: Upload recipe images
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: recipe-images
           path: src/main/resources/recipes-images/
