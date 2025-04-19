@@ -4,7 +4,7 @@ const axios = require('axios');
 const csv = require('csv-parser');
 const { parse } = require('json2csv');
 
-const csvFilePath = 'src/main/resources/data/recipes.csv';
+const csvFilePath = 'csv-files/recipes.csv';
 const imagesDir = 'src/main/resources/recipes-images';
 const imageColumn = 'image';
 
