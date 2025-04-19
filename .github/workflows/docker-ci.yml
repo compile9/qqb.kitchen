@@ -28,6 +28,14 @@ jobs:
           echo "${{ secrets.CSV_TYPES }}" | base64 -d > csv-files/types.csv
           echo "${{ secrets.CSV_TAGS }}" | base64 -d > csv-files/tags.csv
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
       - name: Run the JS script to download images and update recipes CSV image column
         run: node scripts/javascript/process_images.js
 
