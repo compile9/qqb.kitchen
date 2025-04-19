@@ -8,6 +8,18 @@ const csvFilePath = 'src/main/resources/data/recipes.csv';
 const imagesDir = 'src/main/resources/recipes-images';
 const imageColumn = 'image';
 
+// retry function
+async function downloadWithRetry(url, options, retries = 3) {
+  try {
+    return await axios.get(url, options);
+  } catch (error) {
+    if (retries <= 0) throw error;
+    console.log(`Retrying download for ${url}... (${retries} attempts left)`);
+    await new Promise(r => setTimeout(r, 2000)); //
+    return downloadWithRetry(url, options, retries - 1);
+  }
+}
+
 async function downloadImage(imageUrl, imagesDir) {
   try {
     const urlPath = new URL(imageUrl).pathname;
@@ -15,7 +27,8 @@ async function downloadImage(imageUrl, imagesDir) {
     // form a new local path
     const imagePath = path.join(imagesDir, filename);
     // download from ibb url
-    const response = await (imageUrl, { responseType: 'arraybuffer', timeout: 30000 });
+//    const response = await axios.get(imageUrl, { responseType: 'arraybuffer', timeout: 30000 });
+    const response = await downloadWithRetry(imageUrl, { responseType: 'arraybuffer', timeout: 60000 });
     // write image data into imageUrl
     fs.writeFileSync(imagePath, response.data);
     console.log(`Downloaded: ${imagePath}`);
