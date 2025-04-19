@@ -19,6 +19,7 @@ target/
 *.csv
 notes.txt
 src/main/resources/sqlQueryTests/
+src/main/resources/recipes-images
 
 ### Node Modules ###
 node_modules/
