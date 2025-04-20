@@ -39,6 +39,11 @@ jobs:
       - name: Run the JS script to download images and update recipes CSV image column
         run: node scripts/javascript/process_images.js
 
+      - name: Check where images are actually saved
+        run: |
+          # Find the images no matter where they are
+          find . -name "*.webp" -type f
+
       - name: Verify the images directory exists and contains files
         run: |
           echo "Checking contents of recipes-images/"
