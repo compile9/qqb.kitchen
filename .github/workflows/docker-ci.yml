@@ -41,8 +41,8 @@ jobs:
 
       - name: Verify the images directory exists and contains files
         run: |
-          echo "Checking contents of /recipes-images"
-          ls -l /recipes-images/
+          echo "Checking contents of recipes-images/"
+          ls -l recipes-images/
 
 #      - name: Upload recipe images
 #        uses: actions/upload-artifact@v4

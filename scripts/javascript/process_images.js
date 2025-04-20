@@ -5,7 +5,7 @@ const csv = require('csv-parser');
 const { parse } = require('json2csv');
 
 const csvFilePath = 'csv-files/recipes.csv';
-const imagesDir = 'recipes-images';
+const imagesDir = '../../recipes-images';
 const imageColumn = 'image';
 
 async function downloadWithRetry(url, options, retries = 3, delay = 2000) {
