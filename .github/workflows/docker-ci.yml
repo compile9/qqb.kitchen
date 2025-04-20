@@ -49,13 +49,6 @@ jobs:
           echo "Checking contents of recipes-images/"
           ls -l recipes-images
 
-#      - name: Upload recipe images
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: recipe-images
-#          path: src/main/resources/recipes-images/
-#          retention-days: 1
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -103,6 +96,8 @@ jobs:
           annotations: ${{ steps.meta-backend.outputs.annotations }}
           provenance: true
           sbom: true
+          build-contexts: |
+            recipes-images=./recipes-images
 
       - name: Build and push Frontend Docker image
         uses: docker/build-push-action@v6
