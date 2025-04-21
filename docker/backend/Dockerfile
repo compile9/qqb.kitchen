@@ -20,6 +20,19 @@ COPY --from=build /app/target/myKitchen-1.0-SNAPSHOT.jar app.jar
 COPY --from=build /app/target/classes classes
 COPY --from=build /app/target/dependency dependency
 COPY csv-files /app/classes/data
+# check CSV image column
+RUN echo "=== Checking image paths in recipes.csv ===" && \
+    if [ -f /app/classes/data/recipes.csv ]; then \
+      echo "File exists. First 3 lines:" && \
+      head -n 3 /app/classes/data/recipes.csv && \
+      echo "\nImage column values (including header):" && \
+      IMAGE_COL=$(head -n1 /app/classes/data/recipes.csv | tr ',' '\n' | grep -n "image" | cut -d: -f1) && \
+      echo "Image column is #$IMAGE_COL" && \
+      cut -d, -f$IMAGE_COL /app/classes/data/recipes.csv | head -n 15; \
+    else \
+      echo "recipes.csv does not exist in /app/classes/data/"; \
+    fi
+
 COPY /scripts/shell/wait-db.sh wait-db.sh
 RUN chmod +x wait-db.sh
 ENTRYPOINT ["./wait-db.sh"]
