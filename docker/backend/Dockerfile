@@ -20,6 +20,15 @@ COPY --from=build /app/target/myKitchen-1.0-SNAPSHOT.jar app.jar
 COPY --from=build /app/target/classes classes
 COPY --from=build /app/target/dependency dependency
 COPY csv-files /app/classes/data
+# check CSV image column
+RUN echo "=== Checking image paths in CSV files ===" && \
+    for csv in /app/classes/data/*.csv; do \
+      echo "File: $csv" && \
+      echo "Image paths:" && \
+      grep -o '"image","[^"]*"' "$csv" || \
+      grep -o '"[^"]*","[^"]*","[^"]*","[^"]*","[^"]*"' "$csv" | cut -d',' -f5 || \
+      awk -F, '{print $5}' "$csv" | grep -v "^$" | head -n 10; \
+    done
 COPY /scripts/shell/wait-db.sh wait-db.sh
 RUN chmod +x wait-db.sh
 ENTRYPOINT ["./wait-db.sh"]
