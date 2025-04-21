@@ -96,8 +96,6 @@ jobs:
           annotations: ${{ steps.meta-backend.outputs.annotations }}
           provenance: true
           sbom: true
-          build-contexts: |
-            recipes-images=./recipes-images
 
       - name: Build and push Frontend Docker image
         uses: docker/build-push-action@v6
