@@ -3,6 +3,9 @@ FROM maven:3.9.9-eclipse-temurin-21-jammy AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src/main ./src/main
+COPY recipes-images ./recipes-images
+# check if "recipes-images" exists in the build stage
+RUN echo "Checking if 'recipes-images' exists in the build stage:" && ls -l recipes-images || echo "'recipes-images' does not exist!"
 RUN mvn clean package
 RUN mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
 
@@ -10,6 +13,9 @@ RUN mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
 # Runtime Stage
 FROM eclipse-temurin:21
 WORKDIR /app
+COPY --from=build /app/recipes-images recipes-images
+# check if "recipes-images" exists in the runtime stage
+RUN echo "Checking if 'recipes-images' exists in the runtime stage:" && ls -l recipes-images || echo "'recipes-images' does not exist!"
 COPY --from=build /app/target/myKitchen-1.0-SNAPSHOT.jar app.jar
 COPY --from=build /app/target/classes classes
 COPY --from=build /app/target/dependency dependency
