@@ -15,7 +15,6 @@ FROM eclipse-temurin:21
 WORKDIR /app
 # check if "recipes-images" exists in the runtime stage
 RUN echo "Checking if 'recipes-images' exists in the runtime stage:" && ls -l recipes-images || echo "'recipes-images' does not exist!"
-
 COPY --from=build /app/target/myKitchen-1.0-SNAPSHOT.jar app.jar
 COPY --from=build /app/target/classes classes
 COPY --from=build /app/target/dependency dependency
