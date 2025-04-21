@@ -13,13 +13,13 @@ RUN mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
 # Runtime Stage
 FROM eclipse-temurin:21
 WORKDIR /app
+COPY --from=build /app/recipes-images recipes-images
 # check if "recipes-images" exists in the runtime stage
 RUN echo "Checking if 'recipes-images' exists in the runtime stage:" && ls -l recipes-images || echo "'recipes-images' does not exist!"
 COPY --from=build /app/target/myKitchen-1.0-SNAPSHOT.jar app.jar
 COPY --from=build /app/target/classes classes
 COPY --from=build /app/target/dependency dependency
 COPY csv-files /app/classes/data
-COPY recipes-images/* /app/recipes-images
 COPY /scripts/shell/wait-db.sh wait-db.sh
 RUN chmod +x wait-db.sh
 ENTRYPOINT ["./wait-db.sh"]
