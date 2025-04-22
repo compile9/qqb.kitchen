@@ -58,7 +58,7 @@ async function processCsv() {
         const imageUrl = row[imageColumn];
         const imagePath = await downloadImage(imageUrl, imagesDir);
         if (imagePath) {
-          row[imageColumn] = imagePath;
+          row[imageColumn] = '/' + imagePath;
         }
         return row;
       });
