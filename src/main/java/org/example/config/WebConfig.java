@@ -9,6 +9,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/recipes-images/**") // URL path that browsers will use
-                .addResourceLocations("file:/recipes-images/");  // Actual folder location
+                .addResourceLocations("file:/app/recipes-images/");  // Actual folder location
     }
 }
