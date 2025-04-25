@@ -12,8 +12,11 @@
     "clean": "npm prune"
   },
   "keywords": [],
-  "author": "Dongning Song",
-  "license": "ISC",
+  "author": {
+    "name": "Dongning Song",
+    "url": "https://qqb.kitchen"
+  },
+  "license": "See license in LICENSE",
   "dependencies": {
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.2",
