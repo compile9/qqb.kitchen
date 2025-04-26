@@ -1,7 +1,7 @@
 {
   "name": "qqb.kitchen",
   "version": "1.0.0",
-  "description": "Discover and explore personalized recipes tailored to your taste!",
+  "description": "Discover and explore personalized recipes @ qqb.kitchen!",
   "scripts": {
     "backend": "mvn spring-boot:run",
     "frontend": "webpack serve --config webpack.config.ts --mode development",
@@ -12,8 +12,11 @@
     "clean": "npm prune"
   },
   "keywords": [],
-  "author": "Dongning Song",
-  "license": "ISC",
+  "author": {
+    "name": "Dongning Song",
+    "url": "https://qqb.kitchen"
+  },
+  "license": "See license in LICENSE",
   "dependencies": {
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.2",

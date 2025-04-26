@@ -1,14 +1,20 @@
 # [qqb.kitchen](https://qqb.kitchen/)
-This is my personal recipe website designed to provide users with an engaging platform for discovering and managing recipes.
+**🏗️ This project is currently being developed. More details coming soon. 🚧**
+
+
+
 
 ## Table of Contents
-
+- [About](#about)
 - [Project Overview](#project-overview)
 - [Tech Stack](#tech-stack)
 - [Latest User Interface](#latest-user-interface)
 - [Features](#features)
 - [Database Schema](#database-schema)
-- [Disclaimer](#disclaimer)
+- [Copyright](#copyright)
+
+## About
+This is my personal recipe website designed to provide users with an engaging platform for discovering and managing recipes. If you have questions about my implementation, feel free to reach out to [me](https://www.linkedin.com/in/dns689/).
 
 ## Project Overview
 **[qqb.kitchen](https://qqb.kitchen/)** is a containerized web application featuring a <code style="color : darkorange">**Java**</code> Spring Boot backend 
@@ -53,6 +59,11 @@ The current database structure:
 
 <img src="src/main/resources/image/schema.png" alt="SQL Schema" width=500/>
 
-## Disclaimer
+## Copyright
 
-This project is part of my personal portfolio showcasing my ability to develop full stack applications and implement DevOps best practices for deployment and infrastructure management. While you're welcome to explore and learn from the code, please respect that it represents my intellectual effort and approach. Not intended for production use or direct replication for commercial purposes. If you have questions about my implementation, feel free to reach out to [me](https://www.linkedin.com/in/dns689/) on LinkedIn.
+© 2025 [Dongning Song](https://qqb.kitchen) - All Rights Reserved
+
+This project is not licensed for distribution, modification, or commercial use.
+See the [LICENSE](LICENSE) file for details.
+
+
