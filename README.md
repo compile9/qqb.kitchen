@@ -14,7 +14,7 @@
 - [Copyright](#copyright)
 
 ## About
-This is my personal recipe website designed to provide users with an engaging platform for discovering and managing recipes. If you have questions about my implementation, feel free to reach out to [me](https://www.linkedin.com/in/dns689/).
+This is my personal recipe website designed to provide users with an engaging platform for discovering and managing recipes. If you have questions about my implementation, feel free to reach out to [me](https://www.linkedin.com/in/dongningsong/).
 
 ## Project Overview
 **[qqb.kitchen](https://qqb.kitchen/)** is a containerized web application featuring a <code style="color : darkorange">**Java**</code> Spring Boot backend 
