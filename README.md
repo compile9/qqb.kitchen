@@ -7,10 +7,10 @@
 ## Table of Contents
 - [About](#about)
 - [Project Overview](#project-overview)
+- [SQL Database Schema](#sql-database-schema)
 - [Tech Stack](#tech-stack)
 - [Latest User Interface](#latest-user-interface)
 - [Features](#features)
-- [Database Schema](#database-schema)
 - [Copyright](#copyright)
 
 ## About
@@ -22,6 +22,13 @@ This is my personal recipe website designed to provide users with an engaging pl
  The infrastructure leverages <code style="color : cyan">**Docker**</code> for containerization and orchestration, 
  with deployment automated through a <code style="color : green">**CI/CD**</code> pipeline that builds and pushes custom images to DockerHub, 
  then deploys them alongside PostgreSQL to <code style="color : gold">**Amazon Web Services (AWS)**</code>
+
+## SQL Database Schema
+
+The current database structure:
+
+<img src="src/main/resources/image/schema.png" alt="SQL Schema" width=500/>
+ 
 
 ## Tech Stack
 - **Frontend**: ![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB), ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)
@@ -52,12 +59,6 @@ This is my personal recipe website designed to provide users with an engaging pl
 - **Dynamic Navigation System** _(Implemented)_: Allows users to filter recipes using multi-select dropdown menus, with support for dietary restrictions, meal types, cuisines, and more, all managed through URL-based state management.
 - **Recipe Instruction Page** _(Implemented)_: Clicking on a recipe image redirects users to a dedicated instruction page. This page displays categorized tags, a detailed ingredient list, and step-by-step preparation instructions, offering users a comprehensive cooking guide.
 - **Upcoming Feature** _(Ongoing)_: Placeholder
-
-## Database Schema
-
-The current database structure:
-
-<img src="src/main/resources/image/schema.png" alt="SQL Schema" width=500/>
 
 ## Copyright
 
